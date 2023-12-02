@@ -20,8 +20,8 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
     const [alunoData, setAlunoData] = useState({ cpf: "", rg: "", nome: "", sobrenome: "", dataNascimento: "", sexo: "", endereco: "", bairro: "", cidade: "", cep: "", estado: "", telefone: "", email: '' })
     const [successMessage, setSuccessMessage] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
-
-    useEffect(() => {
+    
+    useEffect(() => { 
         if (selectedAluno != null) {
             setAlunoData(selectedAluno);
         }
@@ -31,19 +31,6 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
         const { name, value } = event.target;
         setAlunoData({ ...alunoData, [name]: value })
     }
-
-    // const handleSubmit = async (event) => {
-
-    //     event.preventDefault();
-
-    //     try {
-    //         await alunoService.createAluno(alunoData)
-    //         alert('Aluno cadastrado')
-    //     } catch (error) {
-    //         alert('Aluno não foi cadastrado')
-    //     }
-
-    // }
 
     const isAlunoDataValid = (alunoData) => {
         return (alunoData.cpf &&
@@ -60,50 +47,7 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
             alunoData.telefone &&
             alunoData.email)
     }
-
-
-
-    // const handleSubmit = async (event) => {
-    //     event.preventDefault();
-
-    //     // try {
-    //     //     await alunoService.createAluno(alunoData)
-    //     //     alert('Aluno cadastrado')
-    //     // } catch (error) {
-    //     //     alert('Aluno não foi cadastrado')
-    //     // }
-
-    //     if (isAlunoDataValid(alunoData)) {
-    //         try {
-    //             if (selectedAluno == null) {
-    //                 await alunoService.createAluno(alunoData);
-    //                 limparFormulario();
-    //                 setSuccessMessage('Aluno cadastrado com sucesso!');
-    //                 setTimeout(() => {
-    //                     setSuccessMessage(null);
-    //                 }, 5000);
-    //             } else {
-    //                 await alunoService.updateAluno(selectedAluno.cpf, alunoData);
-    //                 limparFormulario();
-    //                 setSuccessMessage('Aluno atualizado com sucesso!');
-    //                 setTimeout(() => {
-    //                     setSuccessMessage(null);
-    //                 }, 5000);
-    //             }
-    //         } catch (error) {
-    //             setErrorMessage(`Aluno não foi cadastrado: ${error.message}`);
-    //             setTimeout(() => {
-    //                 setErrorMessage(null);
-    //             }, 10000);
-    //         }
-    //     } else {
-    //         setErrorMessage('Preencha todos os campos obrigatórios antes de cadastrar o aluno.');
-    //         setTimeout(() => {
-    //             setErrorMessage(null);
-    //         }, 10000);
-    //     }
-
-    // };
+  
     const handleDataNascimentoChange = (event) => {
         // Chamamos a função de validação ao alterar a data de nascimento
         isAnoMaiorQueAtual(event);
@@ -112,6 +56,7 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
         handleInputChange(event);
       };
 
+    
     const limparFormulario = () => {
         setAlunoData({
             cpf: "",
@@ -129,6 +74,8 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
             email: ""
         });
         document.getElementById('cpf').disabled = false;
+        document.getElementById('cadastrar').disabled = false;
+        document.getElementById('atualizar').disabled = true;
 
         for (let i = 0; i < quantidadeAlunos; i++) {
             const campoAluno = document.getElementById(`aluno-${i}`);
@@ -150,6 +97,40 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
         setQuantidadeAlunos(1);
     };
 
+    // const handleSubmit = async (event) => {
+    //     event.preventDefault();
+
+    //     if (isAlunoDataValid(alunoData)) {
+    //         try {
+    //             if (selectedAluno === null) {
+    //                 await alunoService.createAluno(alunoData);
+    //                 limparFormulario();
+    //                 setSuccessMessage('Aluno cadastrado com sucesso!');
+    //             } else {
+    //                 await alunoService.updateAluno(selectedAluno.cpf, alunoData);
+    //                 limparFormulario();
+    //                 setSuccessMessage('Aluno atualizado com sucesso!');
+    //             }
+    //             setTimeout(() => {
+    //                 setSuccessMessage(null);
+    //             }, 5000);
+
+    //             // Chama a função onSave passada como propriedade para atualizar a tabela no pai
+    //             onSave(alunoData);
+    //         } catch (error) {
+    //             setErrorMessage(`Aluno não foi cadastrado: ${error.message}`);
+    //             setTimeout(() => {
+    //                 setErrorMessage(null);
+    //             }, 5000);
+    //         }
+    //     } else {
+    //         setErrorMessage('Preencha todos os campos obrigatórios antes de cadastrar o aluno.');
+    //         setTimeout(() => {
+    //             setErrorMessage(null);
+    //         }, 5000);
+    //     }
+    // };
+    
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -183,6 +164,8 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
             }, 10000);
         }
     };
+
+
 
     const [quantidadeAlunos, setQuantidadeAlunos] = useState(1);
 
@@ -554,10 +537,23 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
                     <div class="mr-3">
                         <button
                             type="button"
+                            id='cadastrar'
                             className="btn btn-primary py-1 px-3 btn-gradient"
                             onClick={handleSubmit}
+                            
                         >
                             CADASTRAR
+                        </button>
+                    </div>
+                    <div class="mr-3">
+                        <button
+                            type="button"
+                            id='atualizar'
+                            className="btn btn-primary py-1 px-3 btn-gradient"
+                            onClick={handleSubmit}
+                            disabled={!selectedAluno}
+                        >
+                            ATUALIZAR
                         </button>
                     </div>
                 </div>

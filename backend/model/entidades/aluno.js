@@ -37,17 +37,6 @@ class Aluno {
         return alunos;
     }
 
-    // async filtrar({nome,sexo}){
-    //     var sql=`select * from aluno where nome like '%${nome}%' and sexo=?`
-    //     if(sexo === 'Masculino'){
-    //         sql=`select * from aluno where nome like '%${nome}%'`
-    //     }else if(sexo === 'Feminino'){
-    //         sql=`select * from aluno where nome like '%${nome}%'`
-    //     }
-    //     const alunos = await banco.ExecutaComando(sql,sexo);
-    //     return alunos;
-    // }
-
     async filtrar({ nome, sexo }) {
         let sql = "SELECT * FROM aluno WHERE nome LIKE ?";
         const params = [`%${nome}%`];

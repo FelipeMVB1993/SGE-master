@@ -14,16 +14,6 @@ class AlunoController {
 
     }
 
-    // async filtrar(req,res){
-    //     const filtro = req.body;
-    //     try{
-    //         const result = await aluno.filtrar(filtro)
-    //         return res.status(200).json(result);
-    //     }catch(error){
-
-    //     }
-    // }
-
     async filtrar(req, res) {
         const filtro = req.body;
         try {
@@ -35,7 +25,6 @@ class AlunoController {
         }
       }
       
-
     async getByCPF(req,res) {
         const cpf = req.params.cpf;
         try {
