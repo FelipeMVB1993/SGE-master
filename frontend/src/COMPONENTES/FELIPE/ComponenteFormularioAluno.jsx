@@ -214,7 +214,6 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
                                 id={`aluno-${i}`}
                                 name="aluno"
                                 className="form-control form-control-sm"
-                                onBlur={(event) => validarNome(event.target)}
                             />
                         </div>
                     </div>
@@ -227,7 +226,6 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
                             <select
                                 className="form-select form-control form-control-sm"
                                 id={`parentesco-${i}`}
-                                onBlur={(event) => validarSelecao(event.target)}
                             >
                                 <option></option>
                                 {parentesco.map((e) => (
@@ -292,6 +290,7 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
                                 onKeyUp={mCpf}
                                 value={alunoData.cpf}
                                 disabled={selectedAluno !== null}
+                                placeholder='000.000.000-00'
                             />
                         </div>
                     </div>
@@ -309,6 +308,7 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
                                 onChange={handleInputChange}
                                 onBlur={(event) => validarRG(event.target)}
                                 value={alunoData.rg}
+                                placeholder='00.000.000-0'
                             />
                         </div>
                     </div>
@@ -328,6 +328,7 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
                                 onChange={handleInputChange}
                                 onBlur={(event) => validarNome(event.target)}
                                 value={alunoData.nome}
+                                placeholder='Digite o nome do aluno'
                             />
                         </div>
                     </div>
@@ -345,6 +346,7 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
                                 onChange={handleInputChange}
                                 onBlur={(event) => validarNome(event.target)}
                                 value={alunoData.sobrenome}
+                                placeholder='Digite o sobrenome do aluno'
                             />
                         </div>
                     </div>
@@ -402,6 +404,7 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
                                 className="form-control form-control-sm"
                                 onChange={handleInputChange}
                                 value={alunoData.endereco}
+                                placeholder='Digite o endereço'
                             />
                         </div>
                     </div>
@@ -418,6 +421,7 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
                                 className="form-control form-control-sm"
                                 onChange={handleInputChange}
                                 value={alunoData.bairro}
+                                placeholder='Digite o bairro'
                             />
                         </div>
                     </div>
@@ -435,6 +439,7 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
                                 className="form-control form-control-sm"
                                 onChange={handleInputChange}
                                 value={alunoData.cidade}
+                                placeholder='Digite a cidade'
                             />
                         </div>
                     </div>
@@ -496,6 +501,7 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
                                 onChange={handleInputChange}
                                 onKeyUp={mCEP}
                                 value={alunoData.cep}
+                                placeholder='00000-000'
                             />
                         </div>
                     </div>
@@ -516,6 +522,7 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
                                 onKeyUp={mascaraCelular}
                                 onBlur={handleTelefoneChange}
                                 value={alunoData.telefone}
+                                placeholder='(00)00000-0000'
                             />
                         </div>
                     </div>
@@ -533,6 +540,7 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
                                 onChange={handleInputChange}
                                 onBlur={(event) => validarEmail(event.target)}
                                 value={alunoData.email}
+                                placeholder='email@email.com'
                             />
                         </div>
                     </div>
