@@ -20,8 +20,8 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
     const [alunoData, setAlunoData] = useState({ cpf: "", rg: "", nome: "", sobrenome: "", dataNascimento: "", sexo: "", endereco: "", bairro: "", cidade: "", cep: "", estado: "", telefone: "", email: '' })
     const [successMessage, setSuccessMessage] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
-    
-    useEffect(() => { 
+
+    useEffect(() => {
         if (selectedAluno != null) {
             setAlunoData(selectedAluno);
         }
@@ -47,16 +47,32 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
             alunoData.telefone &&
             alunoData.email)
     }
-  
+
     const handleDataNascimentoChange = (event) => {
         // Chamamos a função de validação ao alterar a data de nascimento
         isAnoMaiorQueAtual(event);
-      
+
         // Atualizamos o estado
         handleInputChange(event);
-      };
+    };
 
-    
+    const handleTelefoneChange = (event) => {
+        // Chamamos a função de validação ao alterar a data de nascimento
+        validarCelular(event);
+
+        // Atualizamos o estado
+        handleInputChange(event);
+    };
+
+    const handleCPFChange = (event) => {
+        // Chamamos a função de validação ao alterar a data de nascimento
+        validarCPF(event);
+
+        // Atualizamos o estado
+        handleInputChange(event);
+    };
+
+
     const limparFormulario = () => {
         setAlunoData({
             cpf: "",
@@ -74,8 +90,8 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
             email: ""
         });
         document.getElementById('cpf').disabled = false;
-        document.getElementById('cadastrar').disabled = false;
-        document.getElementById('atualizar').disabled = true;
+        // document.getElementById('cadastrar').disabled = false;
+        // document.getElementById('atualizar').disabled = true;
 
         for (let i = 0; i < quantidadeAlunos; i++) {
             const campoAluno = document.getElementById(`aluno-${i}`);
@@ -130,7 +146,7 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
     //         }, 5000);
     //     }
     // };
-    
+
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -155,13 +171,13 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
                 setErrorMessage(`Aluno não foi cadastrado: ${error.message}`);
                 setTimeout(() => {
                     setErrorMessage(null);
-                }, 10000);
+                }, 5000);
             }
         } else {
             setErrorMessage('Preencha todos os campos obrigatórios antes de cadastrar o aluno.');
             setTimeout(() => {
                 setErrorMessage(null);
-            }, 10000);
+            }, 5000);
         }
     };
 
@@ -272,7 +288,7 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
                                 name="cpf"
                                 className="form-control form-control-sm"
                                 onChange={handleInputChange}
-                                onBlur={(event) => validarCPF(event.target)}
+                                onBlur={handleCPFChange}
                                 onKeyUp={mCpf}
                                 value={alunoData.cpf}
                                 disabled={selectedAluno !== null}
@@ -498,7 +514,7 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
                                 className="form-control form-control-sm"
                                 onChange={handleInputChange}
                                 onKeyUp={mascaraCelular}
-                                onBlur={(event) => validarCelular(event.target)}
+                                onBlur={handleTelefoneChange}
                                 value={alunoData.telefone}
                             />
                         </div>
@@ -540,12 +556,12 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
                             id='cadastrar'
                             className="btn btn-primary py-1 px-3 btn-gradient"
                             onClick={handleSubmit}
-                            
+
                         >
                             CADASTRAR
                         </button>
                     </div>
-                    <div class="mr-3">
+                    {/* <div class="mr-3">
                         <button
                             type="button"
                             id='atualizar'
@@ -555,26 +571,26 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
                         >
                             ATUALIZAR
                         </button>
-                    </div>
+                    </div> */}
                 </div>
                 <div>
-                <div id='mensagem'>
-                {successMessage && (
-                    <div className="alert alert-success" role="alert">
-                        <div className='centraliza'>
-                            {successMessage}
-                        </div>
+                    <div id='mensagem'>
+                        {successMessage && (
+                            <div className="alert alert-success" role="alert">
+                                <div className='centraliza'>
+                                    {successMessage}
+                                </div>
+                            </div>
+                        )}
+                        {errorMessage && (
+                            <div className="alert alert-danger" role="alert">
+                                <div className='centraliza'>
+                                    {errorMessage}
+                                </div>
+                            </div>
+                        )}
                     </div>
-                )}
-                {errorMessage && (
-                    <div className="alert alert-danger" role="alert">
-                        <div className='centraliza'>
-                            {errorMessage}
-                        </div>
-                    </div>
-                )}
                 </div>
-            </div>
 
             </form>
         </div>

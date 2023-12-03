@@ -3,6 +3,10 @@
   transition: margin-left 0.5s linear;
 }
 
+label{
+  color: black;
+}
+
 #formularioAluno.expanded {
   margin-left: 300px;
 }

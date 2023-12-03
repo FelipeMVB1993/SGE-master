@@ -16,7 +16,7 @@ function ComponenteTabela({ isMenuExpanded }) {
       const dados = await alunoService.getAllAlunos();
       setAlunos(dados);
     } catch (error) {
-      alert('Erro ao carregar alunos' + error);
+      console.log('ERRO:Não foi possível buscar lista de alunos no backend!' + error);
     }
   };
 
@@ -29,20 +29,16 @@ function ComponenteTabela({ isMenuExpanded }) {
     await carregaAlunos();
   };
 
-  // const handleEdit = async (aluno) => {
-  //   document.getElementById('atualizar').disable = true;
-  //   setSelectedAluno(aluno);
-  // };
-
-  const handleEdit = async (aluno) => { 
-    document.getElementById('cadastrar').disabled = true;
-    document.getElementById('atualizar').disabled = false;
-    setSelectedAluno(aluno); };
+  const handleEdit = async (aluno) => {
+    // document.getElementById('cadastrar').disabled = true;
+    // document.getElementById('atualizar').disabled = false;
+    setSelectedAluno(aluno);
+  };
 
   const handleRestaurarTabela = async () => {
     await carregaAlunos();
   }
-  
+
   const handleSave = async (aluno) => {
     try {
       if (selectedAluno === null) {
@@ -59,10 +55,10 @@ function ComponenteTabela({ isMenuExpanded }) {
 
   const handleFiltrar = async () => {
     try {
-      console.log('Search Input:', searchInput);
+      console.log('Input Pesquisar:', searchInput);
 
       if (!searchInput) {
-        console.log('No Search Input. Loading all students.');
+        console.log('Sem input pesquisar. Carregar todos alunos.');
         await carregaAlunos();
         return;
       }
@@ -85,7 +81,7 @@ function ComponenteTabela({ isMenuExpanded }) {
       }, 5000);
     }
   };
-  
+
 
   return (
     <div id="formularioAluno" className={isMenuExpanded ? "expanded" : ""}>
@@ -133,51 +129,58 @@ function ComponenteTabela({ isMenuExpanded }) {
               </button>
             </div>
             {error && <div className="alert alert-danger ml-4" role="alert">{error}</div>}
-            <table class="table table-hover">
-            <thead class="azul">
-              <tr>
-                <th scope="col">CPF</th>
-                <th scope="col">RG</th>
-                <th scope="col">Nome</th>
-                <th scope="col">Data de Nascimento</th>
-                <th scope="col">Sexo</th>
-                <th scope="col">Endereço</th>
-                <th scope="col">Telefone</th>
-                <th scope="col">Email</th>
-                <th scope="col">Editar</th>
-                <th scope="col">Excluir</th>
-              </tr>
-            </thead>
-            <tbody>
-              {alunos.map((aluno) => (
-                <tr key={aluno.cpf}>
-                  <td className="texto">{aluno.cpf}</td>
-                  <td className="texto">{aluno.rg}</td>
-                  <td className="texto">{aluno.nome} {aluno.sobrenome}</td>
-                  <td className="texto">{aluno.dataNascimento}</td>
-                  <td className="texto">{aluno.sexo}</td>
-                  <td className="texto">{aluno.endereco} <br /> {aluno.bairro} <br /> {aluno.cidade}/{aluno.estado} <br /> {aluno.cep}</td>
-                  <td className="texto">{aluno.telefone}</td>
-                  <td className="texto">{aluno.email}</td>
-                  <td>
-                    <div className="centraliza">
-                      <button className="btn btn-primary m-2" onClick={() => { handleEdit(aluno) }}>
-                        <i class="bi bi-pencil-square"></i>{" "}
-                      </button>
-                    </div>
-                  </td>
-                  <td>
-                    <div className="centraliza">
-                      <button className="btn btn-danger m-2" onClick={() => { handleDelete(aluno.cpf) }}>
-                        <i class="bi bi-trash"></i>{" "}
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          </div> 
+            {alunos.length === 0 ? (
+              <div className="alert alert-danger ml-4 text-center mx-auto" role="alert">
+              ERRO: Não foi possível buscar a lista de alunos no backend!
+            </div>
+            
+            ) : (
+              <table className="table table-hover">
+                <thead class="azul">
+                  <tr>
+                    <th scope="col">CPF</th>
+                    <th scope="col">RG</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Data de Nascimento</th>
+                    <th scope="col">Sexo</th>
+                    <th scope="col">Endereço</th>
+                    <th scope="col">Telefone</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Editar</th>
+                    <th scope="col">Excluir</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {alunos.map((aluno) => (
+                    <tr key={aluno.cpf}>
+                      <td className="texto">{aluno.cpf}</td>
+                      <td className="texto">{aluno.rg}</td>
+                      <td className="texto">{aluno.nome} {aluno.sobrenome}</td>
+                      <td className="texto">{aluno.dataNascimento}</td>
+                      <td className="texto">{aluno.sexo}</td>
+                      <td className="texto">{aluno.endereco} <br /> {aluno.bairro} <br /> {aluno.cidade}/{aluno.estado} <br /> {aluno.cep}</td>
+                      <td className="texto">{aluno.telefone}</td>
+                      <td className="texto">{aluno.email}</td>
+                      <td>
+                        <div className="centraliza">
+                          <button className="btn btn-primary m-2" onClick={() => { handleEdit(aluno) }}>
+                            <i class="bi bi-pencil-square"></i>{" "}
+                          </button>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="centraliza">
+                          <button className="btn btn-danger m-2" onClick={() => { handleDelete(aluno.cpf) }}>
+                            <i class="bi bi-trash"></i>{" "}
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
         </div>
       </div>
     </div>

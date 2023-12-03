@@ -6,14 +6,10 @@ export const isAnoMaiorQueAtual = (event) => {
     const anoSelecionado = new Date(dataNascimentoInput.value).getFullYear();
 
     if (anoSelecionado > anoAtual) {
-      // Ano não é maior que o ano atual
-      dataNascimentoInput.value = "teste";
+      dataNascimentoInput.value = "";
       dataNascimentoInput.style.borderColor = "red";
       dataNascimentoInput.style.borderWidth = "1px";
-      // alert("Ano de nascimento inválido. Digite novamente.");
-      // Você pode optar por limpar o valor ou deixar como está
     } else {
-      // Ano é maior que o ano atual
       dataNascimentoInput.style.borderColor = "#8AC78A";
       dataNascimentoInput.style.borderWidth = "1px";
     }
@@ -62,103 +58,40 @@ export const validarEmail = (input) => {
   return true;
 };
 
-export const validarCelular = (input) => {
-  const numero = input.value.replace(/\D/g, "");
+export const validarCelular = (event) => {
+  const numeroInput = event.target;
+  const numero = numeroInput.value.replace(/\D/g, ""); // Remove caracteres não numéricos
 
   if (!numero) {
-    console.log("Validar Celular: true (vazio)", numero);
-    return true;
+    // Número vazio, considerado válido
+    numeroInput.style.borderColor = "#8AC78A";
+    numeroInput.style.borderWidth = "1px";
+    return;
   }
 
   const isFormatoValido = numero.length === 11 && numero.charAt(2) === "9";
-
   const codArea = numero.substr(0, 2);
   const codAreaValidos = [
-    "11",
-    "12",
-    "13",
-    "14",
-    "15",
-    "16",
-    "17",
-    "18",
-    "19",
-    "21",
-    "22",
-    "24",
-    "27",
-    "28",
-    "31",
-    "32",
-    "33",
-    "34",
-    "35",
-    "37",
-    "38",
-    "41",
-    "42",
-    "43",
-    "44",
-    "45",
-    "46",
-    "47",
-    "48",
-    "49",
-    "51",
-    "53",
-    "54",
-    "55",
-    "61",
-    "62",
-    "63",
-    "64",
-    "65",
-    "66",
-    "67",
-    "68",
-    "69",
-    "71",
-    "73",
-    "74",
-    "75",
-    "77",
-    "79",
-    "81",
-    "82",
-    "83",
-    "84",
-    "85",
-    "86",
-    "87",
-    "88",
-    "89",
-    "91",
-    "92",
-    "93",
-    "94",
-    "95",
-    "96",
-    "97",
-    "98",
-    "99",
+    "11", "12", "13", "14", "15", "16", "17", "18", "19", "21", "22", "24",
+    "27", "28", "31", "32", "33", "34", "35", "37", "38", "41", "42", "43",
+    "44", "45", "46", "47", "48", "49", "51", "53", "54", "55", "61", "62",
+    "63", "64", "65", "66", "67", "68", "69", "71", "73", "74", "75", "77",
+    "79", "81", "82", "83", "84", "85", "86", "87", "88", "89", "91", "92",
+    "93", "94", "95", "96", "97", "98", "99",
   ];
-  const isCodAreaValido = codAreaValidos.includes(codArea);
 
+  const isCodAreaValido = codAreaValidos.includes(codArea);
   const isValido = isFormatoValido && isCodAreaValido;
 
-  console.log("Validar Celular:", isValido, numero);
-
   if (!isValido) {
-    input.style.borderColor = "red";
-    input.style.borderWidth = "1px";
+    numeroInput.style.borderColor = "red";
+    numeroInput.style.borderWidth = "1px";
     alert("Número de Celular Inválido. Digite Novamente.");
-    input.value = "";
-    return false;
+    numeroInput.value = "";
+  } else {
+    numeroInput.style.borderColor = "#8AC78A";
+    numeroInput.style.borderWidth = "1px";
   }
-
-  input.style.borderColor = "#8AC78A";
-  input.style.borderWidth = "1px";
-  return true;
 };
 
 export const mascaraCelular = (event) => {
@@ -214,39 +147,10 @@ export const mCEP = (event) => {
   event.target.value = cep;
 };
 
-
-export const validarCPF = (cpfInput) => {
-  if (!cpfInput) {
-    console.error("Elemento de CPF não encontrado");
-    return false;
-  }
-
-  let cpf = cpfInput.value.replace(/\D/g, "");
-  let isValido = true;
-
-  if (!cpf) return true;
-
-  if (
-    [
-      "00000000000",
-      "11111111111",
-      "22222222222",
-      "33333333333",
-      "44444444444",
-      "55555555555",
-      "66666666666",
-      "77777777777",
-      "88888888888",
-      "99999999999",
-    ].includes(cpf) ||
-    cpf.length !== 11
-  ) {
-    isValido = false;
-  }
-
-  if (isValido) {
-    isValido = validarCpfAlgoritmo(cpf);
-  }
+export const validarCPF = (event) => {
+  const cpfInput = event.target;
+  const cpf = cpfInput.value.replace(/\D/g, "");
+  const isValido = validarCpfAlgoritmo(cpf);
 
   if (!isValido) {
     cpfInput.style.borderColor = "red";
@@ -283,7 +187,6 @@ const validarCpfAlgoritmo = (cpf) => {
 
   return rev === parseInt(cpf.charAt(10));
 };
-
 
 export const validarNome = (input) => {
   const nome = input.value.trim();
