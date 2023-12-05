@@ -1,6 +1,9 @@
+-- Cria a base dados
+CREATE DATABASE sge;
+-- Cria a tabela de alunos
 CREATE TABLE aluno (
     cpf varchar(14) not null primary key,
-    rg varchar(13) null,
+    rg varchar(14) null,
     nome varchar(100) null,
     sobrenome varchar(100) null,
     dataNascimento varchar(100) null,
@@ -13,8 +16,8 @@ CREATE TABLE aluno (
     telefone varchar(20) null,
     email varchar(100) null
 );
-
+-- Insere os alunos na tabela
 INSERT INTO aluno (cpf, rg, nome, sobrenome, dataNascimento, sexo, endereco, bairro, cidade, cep, estado, telefone, email)
 VALUES 
-    ('123.456.789-01', '123456789', 'Fulano', 'Silva', '1990-01-01', 'Masculino', 'Rua A - 123', 'Centro', 'Cidade A', '12345-678', 'PR', '(11) 98765-4321', 'fulano@email.com'),
-    ('987.654.321-09', '987654321', 'Ciclana', 'Oliveira', '1985-05-05', 'Feminino', 'Rua B - 456', 'Bairro B', 'Cidade B', '54321-876', 'CE', '(22) 98765-4321', 'ciclana@email.com');
+    ('123.456.789-01', '12.345.678-9', 'Fulano', 'Silva', '1990-01-01', 'Masculino', 'Rua A - 123', 'Centro', 'Cidade A', '12345-678', 'PR', '(11) 98765-4321', 'fulano@email.com'),
+    ('987.654.321-09', '98.765.432-1', 'Ciclana', 'Oliveira', '1985-05-05', 'Feminino', 'Rua B - 456', 'Bairro B', 'Cidade B', '54321-876', 'CE', '(22) 98765-4321', 'ciclana@email.com');
