@@ -90,8 +90,6 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
             email: ""
         });
         document.getElementById('cpf').disabled = false;
-        // document.getElementById('cadastrar').disabled = false;
-        // document.getElementById('atualizar').disabled = true;
 
         for (let i = 0; i < quantidadeAlunos; i++) {
             const campoAluno = document.getElementById(`aluno-${i}`);
@@ -112,44 +110,10 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
 
         setQuantidadeAlunos(1);
     };
-
-    // const handleSubmit = async (event) => {
-    //     event.preventDefault();
-
-    //     if (isAlunoDataValid(alunoData)) {
-    //         try {
-    //             if (selectedAluno === null) {
-    //                 await alunoService.createAluno(alunoData);
-    //                 limparFormulario();
-    //                 setSuccessMessage('Aluno cadastrado com sucesso!');
-    //             } else {
-    //                 await alunoService.updateAluno(selectedAluno.cpf, alunoData);
-    //                 limparFormulario();
-    //                 setSuccessMessage('Aluno atualizado com sucesso!');
-    //             }
-    //             setTimeout(() => {
-    //                 setSuccessMessage(null);
-    //             }, 5000);
-
-    //             // Chama a função onSave passada como propriedade para atualizar a tabela no pai
-    //             onSave(alunoData);
-    //         } catch (error) {
-    //             setErrorMessage(`Aluno não foi cadastrado: ${error.message}`);
-    //             setTimeout(() => {
-    //                 setErrorMessage(null);
-    //             }, 5000);
-    //         }
-    //     } else {
-    //         setErrorMessage('Preencha todos os campos obrigatórios antes de cadastrar o aluno.');
-    //         setTimeout(() => {
-    //             setErrorMessage(null);
-    //         }, 5000);
-    //     }
-    // };
-
+    
+    
     const handleSubmit = async (event) => {
         event.preventDefault();
-
         if (isAlunoDataValid(alunoData)) {
             try {
                 if (selectedAluno === null) {
@@ -180,8 +144,7 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
             }, 5000);
         }
     };
-
-
+    
 
     const [quantidadeAlunos, setQuantidadeAlunos] = useState(1);
 
@@ -207,7 +170,7 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
                     <div className="col-5">
                         <div className="form-group borda-form2">
                             <label htmlFor={`aluno-${i}`}>
-                                <i className="fas fa-graduation-cap"></i> Responsável por:
+                                <i className="fas fa-graduation-cap"></i>Nome do Responsével:
                             </label>
                             <input
                                 type="text"
@@ -215,6 +178,7 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
                                 name="aluno"
                                 className="form-control form-control-sm"
                             />
+                            <div class="invalid-feedback">Por favor, informe o nome do Aluno.</div>
                         </div>
                     </div>
 

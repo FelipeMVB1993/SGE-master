@@ -10,6 +10,7 @@ function ComponenteTabela({ isMenuExpanded }) {
   const [selectedAluno, setSelectedAluno] = useState(null);
   const [searchInput, setSearchInput] = useState('');
   const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
 
   const carregaAlunos = async () => {
     try {
@@ -25,13 +26,18 @@ function ComponenteTabela({ isMenuExpanded }) {
   }, []);
 
   const handleDelete = async (cpf) => {
-    await alunoService.deleteAluno(cpf);
-    await carregaAlunos();
+    const confirmarExclusao = window.confirm("Deseja realmente excluir?");
+    if (confirmarExclusao){
+      await alunoService.deleteAluno(cpf);
+      await carregaAlunos();
+      setSuccessMessage('Aluno excluído com sucesso!');
+      setTimeout(() => {
+        setSuccessMessage(null);
+    }, 5000);
+    }
   };
 
   const handleEdit = async (aluno) => {
-    // document.getElementById('cadastrar').disabled = true;
-    // document.getElementById('atualizar').disabled = false;
     setSelectedAluno(aluno);
   };
 
@@ -88,6 +94,15 @@ function ComponenteTabela({ isMenuExpanded }) {
       <div className="main--content">
         <div className="form--wrapper">
           <ComponenteFormularioAluno selectedAluno={selectedAluno} onSave={handleSave} />
+          <div id='mensagem'>
+                        {successMessage && (
+                            <div className="alert alert-success" role="alert">
+                                <div className='centraliza'>
+                                    {successMessage}
+                                </div>
+                            </div>
+                        )}
+                    </div>
           <div className="row">
             <div className="col-6">
               <div className="form-group borda-form mt-5">
