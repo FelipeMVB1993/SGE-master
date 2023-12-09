@@ -19,5 +19,5 @@ CREATE TABLE aluno (
 -- Insere os alunos na tabela
 INSERT INTO aluno (cpf, rg, nome, sobrenome, dataNascimento, sexo, endereco, bairro, cidade, cep, estado, telefone, email)
 VALUES 
-    ('123.456.789-01', '12.345.678-9', 'Fulano', 'Silva', '1990-01-01', 'Masculino', 'Rua A - 123', 'Centro', 'Cidade A', '12345-678', 'PR', '(11) 98765-4321', 'fulano@email.com'),
-    ('987.654.321-09', '98.765.432-1', 'Ciclana', 'Oliveira', '1985-05-05', 'Feminino', 'Rua B - 456', 'Bairro B', 'Cidade B', '54321-876', 'CE', '(22) 98765-4321', 'ciclana@email.com');
+    ('605.300.050-77', '12.345.678-9', 'Fulano', 'Silva', '1990-01-01', 'Masculino', 'Rua A - 123', 'Centro', 'Cidade A', '12345-678', 'PR', '(11) 98765-4321', 'fulano@email.com'),
+    ('426.069.220-85', '98.765.432-1', 'Ciclana', 'Oliveira', '1985-05-05', 'Feminino', 'Rua B - 456', 'Bairro B', 'Cidade B', '54321-876', 'CE', '(22) 98765-4321', 'ciclana@email.com');
