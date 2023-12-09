@@ -9,7 +9,7 @@ import {
     mCEP,
     mascaraCelular,
     validarCPF,
-    validarNome,
+    validarInputText,
     validarSelecao,
     validarRG,
 } from "./ComponenteValidacao";
@@ -110,6 +110,12 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
 
         setQuantidadeAlunos(1);
     };
+
+    const carregarTabela = () => {
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
+      };
     
     
     const handleSubmit = async (event) => {
@@ -119,6 +125,7 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
                 if (selectedAluno === null) {
                     await alunoService.createAluno(alunoData);
                     limparFormulario();
+                    carregarTabela();
                     setSuccessMessage('Aluno cadastrado com sucesso!');
                 } else {
                     await alunoService.updateAluno(selectedAluno.cpf, alunoData);
@@ -170,7 +177,7 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
                     <div className="col-5">
                         <div className="form-group borda-form2">
                             <label htmlFor={`aluno-${i}`}>
-                                <i className="fas fa-graduation-cap"></i>Nome do Responsével:
+                                <i className="fas fa-graduation-cap"></i>Nome do Responsável:
                             </label>
                             <input
                                 type="text"
@@ -178,7 +185,6 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
                                 name="aluno"
                                 className="form-control form-control-sm"
                             />
-                            <div class="invalid-feedback">Por favor, informe o nome do Aluno.</div>
                         </div>
                     </div>
 
@@ -255,7 +261,7 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
                                 value={alunoData.cpf}
                                 disabled={selectedAluno !== null}
                                 placeholder='000.000.000-00'
-                            />
+                            />                           
                         </div>
                     </div>
 
@@ -270,7 +276,7 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
                                 name="rg"
                                 className="form-control form-control-sm"
                                 onChange={handleInputChange}
-                                onBlur={(event) => validarRG(event.target)}
+                                onBlur={validarRG}
                                 value={alunoData.rg}
                                 placeholder='00.000.000-0'
                             />
@@ -290,7 +296,7 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
                                 name="nome"
                                 className="form-control form-control-sm"
                                 onChange={handleInputChange}
-                                onBlur={(event) => validarNome(event.target)}
+                                onBlur={(event) => validarInputText(event.target)}
                                 value={alunoData.nome}
                                 placeholder='Digite o nome do aluno'
                             />
@@ -308,7 +314,7 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
                                 name="sobrenome"
                                 className="form-control form-control-sm"
                                 onChange={handleInputChange}
-                                onBlur={(event) => validarNome(event.target)}
+                                onBlur={(event) => validarInputText(event.target)}
                                 value={alunoData.sobrenome}
                                 placeholder='Digite o sobrenome do aluno'
                             />
@@ -528,7 +534,6 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
                             id='cadastrar'
                             className="btn btn-primary py-1 px-3 btn-gradient"
                             onClick={handleSubmit}
-
                         >
                             CADASTRAR
                         </button>

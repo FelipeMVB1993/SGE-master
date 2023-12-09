@@ -153,9 +153,9 @@ export const validarCPF = (event) => {
   const isValido = validarCpfAlgoritmo(cpf);
 
   if (!isValido) {
+    cpfInput.value = "";
     cpfInput.style.borderColor = "red";
     cpfInput.style.borderWidth = "1px";
-    cpfInput.value = "";
     cpfInput.placeholder = "CPF inválido";
   } else {
     cpfInput.style.borderColor = "#8AC78A";
@@ -188,7 +188,7 @@ const validarCpfAlgoritmo = (cpf) => {
   return rev === parseInt(cpf.charAt(10));
 };
 
-export const validarNome = (input) => {
+export const validarInputText = (input) => {
   const nome = input.value.trim();
   if (!nome) return true;
 
@@ -198,7 +198,7 @@ export const validarNome = (input) => {
   if (!isValido) {
     input.style.borderColor = "red";
     input.style.borderWidth = "1px";
-    alert("Nome inválido. Digite novamente");
+    alert("Campo inválido. Digite novamente");
     input.value = "";
     return false;
   } else {
@@ -208,8 +208,21 @@ export const validarNome = (input) => {
   }
 };
 
-export const validarRG = (input) => {
-  if (input.value.trim() !== "") {
-    input.style.borderColor = "#8AC78A";
+export const validarRG = (event) => {
+  const rgInput = event.target;
+  const rg = rgInput.value;
+  const padraoRG = /^(\d{2}\.\d{3}\.\d{3}-)(\d|X)$/;
+
+  if (padraoRG.test(rg)) {
+    rgInput.style.borderColor = "#8AC78A";
+    rgInput.style.borderWidth = "1px";
+    return true;
+  } else {
+    rgInput.style.borderColor = "red";
+    rgInput.style.borderWidth = "1px";
+    rgInput.placeholder = "Campo inválido. Digite novamente";
+    rgInput.value = "";
+    return false; // indicando que a validação falhou
   }
 };
+
