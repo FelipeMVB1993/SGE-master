@@ -1,6 +1,7 @@
 .table {
   width: 100%;
   table-layout: fixed;
+  margin-top: 40px;
 }
 
 .table th,
@@ -17,25 +18,18 @@
   text-align: center;
 }
 
+.texto{
+  text-align: center;
+}
+
 .centraliza{
   display: flex;
   justify-content: center;
   align-items: center;
-  }
-
-  .texto{
-    text-align: center;
-  }
-
-  .button-container {
-    display: flex;
-    align-items: center;
-    margin-top: 20px; 
-  }
-  
-
-.row-aligned {
-  display: flex;
-  align-items: center;
+  text-align: center;
 }
 
+#restaurar{
+  margin-top: 41px;
+  margin-left: 10px;
+}

@@ -49,26 +49,26 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
     }
 
     const handleDataNascimentoChange = (event) => {
-        // Chamamos a função de validação ao alterar a data de nascimento
+        // Chama a função de validação ao alterar a data de nascimento
         isAnoMaiorQueAtual(event);
 
-        // Atualizamos o estado
+        // Atualiza o estado
         handleInputChange(event);
     };
 
     const handleTelefoneChange = (event) => {
-        // Chamamos a função de validação ao alterar a data de nascimento
+        // Chama a função de validação ao alterar a data de nascimento
         validarCelular(event);
 
-        // Atualizamos o estado
+        // Atualiza o estado
         handleInputChange(event);
     };
 
     const handleCPFChange = (event) => {
-        // Chamamos a função de validação ao alterar a data de nascimento
+        // Chama a função de validação ao alterar a data de nascimento
         validarCPF(event);
 
-        // Atualizamos o estado
+        // Atualiza o estado
         handleInputChange(event);
     };
 
@@ -113,11 +113,11 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
 
     const carregarTabela = () => {
         setTimeout(() => {
-          window.location.reload();
+            window.location.reload();
         }, 3000);
-      };
-    
-    
+    };
+
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (isAlunoDataValid(alunoData)) {
@@ -139,7 +139,7 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
                 // Chama a função onSave passada como propriedade para atualizar a tabela no pai
                 onSave(alunoData);
             } catch (error) {
-                setErrorMessage(`Aluno não foi cadastrado: ${error.message}`);
+                setErrorMessage(`ERRO: ${error.message}`);
                 setTimeout(() => {
                     setErrorMessage(null);
                 }, 5000);
@@ -151,7 +151,7 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
             }, 5000);
         }
     };
-    
+
 
     const [quantidadeAlunos, setQuantidadeAlunos] = useState(1);
 
@@ -261,7 +261,7 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
                                 value={alunoData.cpf}
                                 disabled={selectedAluno !== null}
                                 placeholder='000.000.000-00'
-                            />                           
+                            />
                         </div>
                     </div>
 
@@ -538,17 +538,6 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
                             CADASTRAR
                         </button>
                     </div>
-                    {/* <div class="mr-3">
-                        <button
-                            type="button"
-                            id='atualizar'
-                            className="btn btn-primary py-1 px-3 btn-gradient"
-                            onClick={handleSubmit}
-                            disabled={!selectedAluno}
-                        >
-                            ATUALIZAR
-                        </button>
-                    </div> */}
                 </div>
                 <div>
                     <div id='mensagem'>

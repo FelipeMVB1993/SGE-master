@@ -47,7 +47,7 @@ class AlunoController {
             await aluno.create(alunoData)
             res.status(200).json({message:"Aluno cadastrado com sucesso"})
         }catch(error){
-            console.log("Erro ao cadastrar aluno"+error)
+            console.log("Erro ao cadastrar aluno "+error)
             res.status(500).json({error: "Erro ao cadastrar aluno"})
         }
     }

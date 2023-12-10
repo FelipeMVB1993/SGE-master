@@ -1,5 +1,5 @@
 import AlunoService from '../../SERVICES/alunoService';
-import './ComponenteDeClasseTabela.css';
+import './ComponenteTabela.css';
 import { useState, useEffect } from 'react';
 import ComponenteFormularioAluno from './ComponenteFormularioAluno';
 
@@ -27,13 +27,13 @@ function ComponenteTabela({ isMenuExpanded }) {
 
   const handleDelete = async (cpf) => {
     const confirmarExclusao = window.confirm("Deseja realmente excluir?");
-    if (confirmarExclusao){
+    if (confirmarExclusao) {
       await alunoService.deleteAluno(cpf);
       await carregaAlunos();
       setSuccessMessage('Aluno excluído com sucesso!');
       setTimeout(() => {
         setSuccessMessage(null);
-    }, 5000);
+      }, 5000);
     }
   };
 
@@ -95,14 +95,14 @@ function ComponenteTabela({ isMenuExpanded }) {
         <div className="form--wrapper">
           <ComponenteFormularioAluno selectedAluno={selectedAluno} onSave={handleSave} />
           <div id='mensagem'>
-                        {successMessage && (
-                            <div className="alert alert-success" role="alert">
-                                <div className='centraliza'>
-                                    {successMessage}
-                                </div>
-                            </div>
-                        )}
-                    </div>
+            {successMessage && (
+              <div className="alert alert-success" role="alert">
+                <div className='centraliza'>
+                  {successMessage}
+                </div>
+              </div>
+            )}
+          </div>
           <div className="row">
             <div className="col-6">
               <div className="form-group borda-form mt-5">
@@ -146,9 +146,9 @@ function ComponenteTabela({ isMenuExpanded }) {
             {error && <div className="alert alert-danger ml-4" role="alert">{error}</div>}
             {alunos.length === 0 ? (
               <div className="alert alert-danger ml-4 text-center mx-auto" role="alert">
-              ERRO: Não foi possível buscar a lista de alunos no backend!
-            </div>
-            
+                ERRO: Não foi possível buscar a lista de alunos no backend!
+              </div>
+
             ) : (
               <table className="table table-hover">
                 <thead class="azul">
