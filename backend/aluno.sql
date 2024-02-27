@@ -21,3 +21,12 @@ INSERT INTO aluno (cpf, rg, nome, sobrenome, dataNascimento, sexo, endereco, bai
 VALUES 
     ('605.300.050-77', '12.345.678-9', 'Fulano', 'Silva', '1990-01-01', 'Masculino', 'Rua A - 123', 'Centro', 'Cidade A', '12345-678', 'PR', '(11) 98765-4321', 'fulano@email.com'),
     ('426.069.220-85', '98.765.432-1', 'Ciclana', 'Oliveira', '1985-05-05', 'Feminino', 'Rua B - 456', 'Bairro B', 'Cidade B', '54321-876', 'CE', '(22) 98765-4321', 'ciclana@email.com');
+
+CREATE TABLE agenda (
+    codigo INT NOT NULL AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    turma VARCHAR(100) NOT NULL,
+    dia VARCHAR(100) NOT NULL,
+    hora VARCHAR(100) NOT NULL,
+    CONSTRAINT pk_agenda PRIMARY KEY(codigo)
+);

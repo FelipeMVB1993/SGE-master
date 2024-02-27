@@ -49,26 +49,17 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
     }
 
     const handleDataNascimentoChange = (event) => {
-        // Chama a função de validação ao alterar a data de nascimento
         isAnoMaiorQueAtual(event);
-
-        // Atualiza o estado
         handleInputChange(event);
     };
 
     const handleTelefoneChange = (event) => {
-        // Chama a função de validação ao alterar a data de nascimento
         validarCelular(event);
-
-        // Atualiza o estado
         handleInputChange(event);
     };
 
     const handleCPFChange = (event) => {
-        // Chama a função de validação ao alterar a data de nascimento
         validarCPF(event);
-
-        // Atualiza o estado
         handleInputChange(event);
     };
 

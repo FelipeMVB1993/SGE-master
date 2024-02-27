@@ -13,6 +13,8 @@ function ComponenteMenu({ isMenuExpanded, setMenuExpanded }) {
         { name: "Responsáveis", path: "/cadastroResponsavel", iconClass: "bi bi-person-fill-add" },
         { name: "Alunos", path: "/cadastroAlunos", iconClass: "bi bi-backpack-fill" },
         { name: "Turmas", path: "/Criarturma", iconClass: "bi bi-people-fill" },
+        { name: "Disciplinas", path: "/cadastroDisciplina", iconClass: "bi bi-book-fill" },
+        { name: "Disponibilidade do Professor", path: "/cadastroAgenda", iconClass: "bi bi-calendar-check-fill" },
         { name: "Voltar", path: "/voltar", iconClass: "fas fa-arrow-left" }
     ];
 

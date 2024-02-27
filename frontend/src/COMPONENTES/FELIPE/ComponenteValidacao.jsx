@@ -225,4 +225,3 @@ export const validarRG = (event) => {
     return false; // indicando que a validação falhou
   }
 };
-
