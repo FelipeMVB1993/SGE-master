@@ -18,12 +18,11 @@ body {
   cursor: pointer;
 }
 
-#teste {
+#cabecalho{
   margin-left: 120px;
-  transition: margin-left 0.5s linear;
 }
 
-#teste.expanded {
+#cabecalho.expanded {
   margin-left: 300px;
 }
 
