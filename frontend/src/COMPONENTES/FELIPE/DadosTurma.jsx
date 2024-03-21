@@ -1,0 +1,198 @@
+import "./Dados.css";
+import TurmaService from '../../SERVICES/turmaService.js';
+import { useState, useEffect } from 'react';
+import CadastroTurma from "./cadastroTurma.jsx";
+
+const turmaService = new TurmaService();
+
+function DadosTurma({ isMenuExpanded }) {
+  const [turmas, setTurmas] = useState([]);
+  const [selectedTurma, setSelectedTurma] = useState(null);
+  const [searchInput, setSearchInput] = useState('');
+  const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
+  const [professores, setProfessores] = useState(
+    [{
+      id_professor: 0,
+      nome_professor: "Nenhum professor encontrado"
+    }]
+  );
+  
+  const handleSave = async (turma) => {
+    try {
+      if (selectedTurma === null) {
+        await turmaService.createTurma(turma);
+      } else {
+        await turmaService.updateTurma(selectedTurma.codigo, turma);
+      }
+      await carregaTurmas();
+      setSelectedTurma(null);
+    } catch (error) {
+      console.error('Erro ao salvar turma:', error);
+    }
+  };
+
+  const carregaTurmas = async () => {
+    try {
+      const dados = await turmaService.getAllTurma();
+      setTurmas(dados);
+    } catch (error) {
+      setError('Erro ao carregar turmas' + error);
+    }
+  };
+
+  useEffect(() => {
+    carregaTurmas();
+  }, []);
+
+  const handleDelete = async (codigo) => {
+    const confirmarExclusao = window.confirm("Deseja realmente excluir?");
+    if (confirmarExclusao) {
+      await turmaService.deleteTurma(codigo);
+      await carregaTurmas();
+      setSuccessMessage('Turma excluída com sucesso!');
+      setTimeout(() => {
+        setSuccessMessage(null);
+      }, 5000);
+    }
+  };
+
+  const handleEdit = async (turma) => {
+    setSelectedTurma(turma);
+  };
+
+  const handleRestaurarTabela = async () => {
+    await carregaTurmas();
+  }
+
+  const handleFiltrar = async () => {
+    try {
+
+      const turmasFiltradas = await turmaService.filtrar({ serie: searchInput });
+
+      if (turmasFiltradas.length === 0) {
+        setError('Turma não encontrada. Verifique o nome do professor e tente novamente.');
+        setTimeout(() => {
+          setError(null);
+        }, 5000);
+      } else {
+        setTurmas(turmasFiltradas);
+      }
+    } catch (error) {
+      console.error('Erro ao filtrar turmas:', error);
+      setError('Erro ao filtrar turmas. Tente novamente mais tarde.' + error);
+      setTimeout(() => {
+        setError(null);
+      }, 5000);
+    }
+  };
+
+  return (
+    <div id="formularioAluno" className={isMenuExpanded ? "expanded" : ""}>
+      <div className="main--content">
+        <div className="form--wrapper">
+          <CadastroTurma selectedTurma={selectedTurma} onSave={handleSave}></CadastroTurma>
+          <div id='mensagem'>
+            {successMessage && (
+              <div className="alert alert-success" role="alert">
+                <div className='centraliza'>
+                  {successMessage}
+                </div>
+              </div>
+            )}
+          </div>
+          <div className="row">
+            <div className="col-6">
+              <div className="form-group borda-form mt-5">
+                <label htmlFor="pesquisar">
+                  <i className="bi bi-search"></i> Pesquisar:
+                </label>
+                <div className="input-group flex-nowrap">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Informe o nome do professor"
+                    aria-label="Username"
+                    aria-describedby="addon-wrapping"
+                    name="nome"
+                    value={searchInput}
+                    onChange={(event) => setSearchInput(event.target.value)}
+                  />
+                </div>
+              </div>
+            </div>
+            <div id='pesquisar'>
+              <button
+                className="btn btn-primary btn-gradient"
+                id="pesquisar"
+                type="button"
+                onClick={handleFiltrar}
+              >
+                Pesquisar
+              </button>
+            </div>
+            <div id='restaurar'>
+              <button
+                className="btn btn-primary btn-gradient"
+                id="pesquisar"
+                type="restaurar"
+                onClick={handleRestaurarTabela}
+              >
+                Restaurar Tabela
+              </button>
+            </div>
+            {turmas.length === 0 ? (
+              <div className="alert alert-danger ml-4 text-center mx-auto" role="alert">
+                ERRO: Não foi possível buscar a lista de turmas no backend!
+              </div>
+
+            ) : (
+              <table className="table table-hover">
+                <thead class="azul">
+                  <tr>
+                    <th scope="col">Código</th>
+                    <th scope="col">Série</th>
+                    <th scope="col">Turma</th>
+                    <th scope="col">Período</th>
+                    <th scope="col">Professor</th>
+                    <th scope="col">Editar</th>
+                    <th scope="col">Excluir</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {turmas.map((turma) => (
+                    <tr key={turma.codigo}>
+                      <td className="texto">{turma.codigo}</td>
+                      <td className="texto">{turma.serie}</td>
+                      <td className="texto">{turma.turma}</td>
+                      <td className="texto">{turma.periodo}</td>
+                      <td className="texto">{turma.id_professor}</td>
+                      <td>
+                        <div className="centraliza">
+                          <button className="btn btn-primary m-2" onClick={() => { handleEdit(turma) }}>
+                            <i class="bi bi-pencil-square"></i>{" "}
+                          </button>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="centraliza">
+                          <button className="btn btn-danger m-2" onClick={() => { handleDelete(turma.codigo) }}>
+                            <i class="bi bi-trash"></i>{" "}
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}         
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default DadosTurma;
+
+

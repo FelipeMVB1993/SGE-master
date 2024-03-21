@@ -43,6 +43,7 @@ import ComponenteMenu from "./COMPONENTES/MENU/ComponenteMenu";
 import ComponenteTabela from './COMPONENTES/FELIPE/ComponenteTabela';
 import DadosDisciplina from './COMPONENTES/FELIPE/DadosDisciplina';
 import DadosAgenda from './COMPONENTES/FELIPE/DadosAgenda';
+import DadosTurma from './COMPONENTES/FELIPE/DadosTurma';
 
 function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -65,6 +66,7 @@ function App() {
             <Route path='/cadastroAlunos' element={<ComponenteTabela isMenuExpanded={isMenuExpanded} />} />
             <Route path="/cadastroDisciplina" element={<DadosDisciplina isMenuExpanded={isMenuExpanded} />} />
             <Route path="/cadastroAgenda" element={<DadosAgenda isMenuExpanded={isMenuExpanded} />} />
+            <Route path="/cadastroTurma" element={<DadosTurma isMenuExpanded={isMenuExpanded} />} />
           </Routes>
         </>
       )}

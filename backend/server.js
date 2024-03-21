@@ -11,6 +11,10 @@ const disciplinaRoutes = require('./routes/disciplinaRoutes')
 app.use('/disciplina',disciplinaRoutes);
 const agendaRoutes = require('./routes/agendaRoutes')
 app.use('/agenda',agendaRoutes);
+const turmaRoutes = require('./routes/turmaRoutes')
+app.use('/turma',turmaRoutes);
+const professorRoutes = require('./routes/professorRoutes')
+app.use('/professor',professorRoutes);
 
 
 
