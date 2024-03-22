@@ -17,7 +17,7 @@ function DadosTurma({ isMenuExpanded }) {
       nome_professor: "Nenhum professor encontrado"
     }]
   );
-  
+
   const handleSave = async (turma) => {
     try {
       if (selectedTurma === null) {
@@ -43,7 +43,9 @@ function DadosTurma({ isMenuExpanded }) {
 
   useEffect(() => {
     carregaTurmas();
+    buscarProfessores();
   }, []);
+
 
   const handleDelete = async (codigo) => {
     const confirmarExclusao = window.confirm("Deseja realmente excluir?");
@@ -86,6 +88,30 @@ function DadosTurma({ isMenuExpanded }) {
       }, 5000);
     }
   };
+
+
+
+  function buscarProfessores() {
+    fetch('http://localhost:3001/professor', { method: "GET" })
+      .then(resposta => resposta.json())
+      .then(retorno => {
+        if (retorno.status) {
+          setProfessores(retorno.listaProfessores);
+        }
+      })
+      .catch(erro => {
+        setProfessores([{
+          id_professor: 0,
+          nome_professor: "Erro ao recuperar professores " + erro.message
+        }]);
+      })
+  }
+
+  // buscar professores ao iniciar o componente (uma unica vez)
+  useEffect(() => {
+    buscarProfessores()
+  }, []); //didMount do React
+
 
   return (
     <div id="formularioAluno" className={isMenuExpanded ? "expanded" : ""}>
@@ -166,7 +192,9 @@ function DadosTurma({ isMenuExpanded }) {
                       <td className="texto">{turma.serie}</td>
                       <td className="texto">{turma.turma}</td>
                       <td className="texto">{turma.periodo}</td>
-                      <td className="texto">{turma.id_professor}</td>
+                      <td className="texto">
+                        {professores.find((professor) => professor.id_professor === turma.id_professor)?.nome_professor}
+                      </td>
                       <td>
                         <div className="centraliza">
                           <button className="btn btn-primary m-2" onClick={() => { handleEdit(turma) }}>
@@ -185,7 +213,7 @@ function DadosTurma({ isMenuExpanded }) {
                   ))}
                 </tbody>
               </table>
-            )}         
+            )}
           </div>
         </div>
       </div>
@@ -194,5 +222,3 @@ function DadosTurma({ isMenuExpanded }) {
 }
 
 export default DadosTurma;
-
-

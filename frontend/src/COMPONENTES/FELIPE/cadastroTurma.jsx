@@ -50,7 +50,7 @@ function CadastroTurma({ selectedTurma, props, onSave }) {
             })
     }
 
-    // buscar autores ao iniciar o componente (uma unica vez)
+    // buscar professores ao iniciar o componente (uma unica vez)
     useEffect(() => {
         buscarProfessores()
     }, []); //didMount do React

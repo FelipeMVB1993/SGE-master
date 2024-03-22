@@ -36,11 +36,18 @@ class Professor {
         await banco.ExecutaComandoNonQuery('update disciplina set ? where codigo = ?', [dadosDisciplina, codigo])
     }
 
+    // async getByCodigo(codigo) {
+    //     const result = await banco.ExecutaComando('SELECT * FROM professor WHERE id_professor = ?', [codigo]);
+    //     const professor = result[0];
+    //     return professor;
+    // }
+
     async getByCodigo(codigo) {
-        const result = await banco.ExecutaComando('SELECT * FROM professor WHERE id_professor = ?', [codigo]);
+        const result = await banco.ExecutaComando('SELECT nome_professor FROM professor WHERE id_professor = ?', [codigo]);
         const professor = result[0];
-        return professor;
+        return professor.nome_professor;
     }
+    
 
     async deleteDisciplina(codigo) {
         await banco.ExecutaComandoNonQuery('DELETE FROM disciplina WHERE codigo = ?', [codigo])
