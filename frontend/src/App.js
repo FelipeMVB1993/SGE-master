@@ -36,7 +36,7 @@
 
 
 import React, { useState } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route} from 'react-router-dom';
 import './App.css';
 import Login from './COMPONENTES/LOGIN/Login';
 import ComponenteMenu from "./COMPONENTES/MENU/ComponenteMenu";
@@ -45,6 +45,7 @@ import DadosDisciplina from './COMPONENTES/FELIPE/DadosDisciplina';
 import DadosAgenda from './COMPONENTES/FELIPE/DadosAgenda';
 import DadosTurma from './COMPONENTES/FELIPE/DadosTurma';
 import DadosMatricula from './COMPONENTES/FELIPE/DadosMatricula';
+import CadastroResponsavel from "./COMPONENTES/MARIANE/CadastroResponsavel";
 function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isMenuExpanded, setMenuExpanded] = useState(false);
@@ -68,6 +69,7 @@ function App() {
             <Route path="/cadastroAgenda" element={<DadosAgenda isMenuExpanded={isMenuExpanded} />} />
             <Route path="/cadastroTurma" element={<DadosTurma isMenuExpanded={isMenuExpanded} />} />
             <Route path="/matriculas" element={<DadosMatricula isMenuExpanded={isMenuExpanded} />} />
+            <Route path="/cadastroResponsavel" element={<CadastroResponsavel isMenuExpanded={isMenuExpanded} />}/>
           </Routes>
         </>
       )}
