@@ -6,13 +6,13 @@ class Turma {
     serie;
     turma;
     periodo;
-    professor;
-    constructor(codigo, serie, turma, periodo, professor) {
+    id_professor;
+    constructor(codigo, serie, turma, periodo, id_professor) {
         this.codigo = codigo;
         this.serie = serie;
         this.turma= turma;
         this.periodo = periodo;
-        this.professor = professor;
+        this.id_professor = id_professor;
     }
 
     async getAll() {
@@ -37,6 +37,42 @@ class Turma {
     async create(dadosTurma) {
         await banco.ExecutaComandoNonQuery('insert into turma set ?', dadosTurma)
     }
+
+    // async create(dadosTurma) {
+    //     try {
+    //         const sql = "INSERT INTO turma (codigo, serie, turma, periodo, id_professor) VALUES (?, ?, ?, ?, ?)";
+    //         const parametros = [
+    //             dadosTurma.codigo,
+    //             dadosTurma.serie,
+    //             dadosTurma.turma,
+    //             dadosTurma.periodo,
+    //             dadosTurma.id_professor
+    //         ];
+    
+    //         await banco.ExecutaComandoNonQuery(sql, parametros);
+    //         console.log("Turma inserida com sucesso!");
+    //         return true; // Indicating that the operation was successful
+    //     } catch (error) {
+    //         console.error("Erro ao registrar a turma:", error);
+    //         return false; // Indicating that an error occurred
+    //     }
+    // }
+    
+
+    // async create(dadosTurma) {
+    //     if (dadosTurma instanceof Turma) {
+    //         const sql = "INSERT INTO turma(codigo, serie, turma, periodo, id_professor) VALUES (?, ?, ?, ?, ?)";
+    //         const parametros = [dadosTurma.codigo, dadosTurma.serie, dadosTurma.turma, dadosTurma.periodo, dadosTurma.id_professor]; // Passando o código do departamento como um parâmetro separado
+    //         try {
+    //             await banco.ExecutaComandoNonQuery(sql, parametros)
+    //             return true; // Indicando que a operação foi bem-sucedida
+    //         } catch (erro) {
+    //             console.error("Erro ao registrar o livro:", erro);
+    //             return false; // Indicando que ocorreu um erro
+    //         }
+    //     }
+    //     return false; // Indicando que o parâmetro passado não é uma instância válida de Livro
+    // }
 
     async update(codigo, dadosTurma) {
         const sql = 'UPDATE turma SET serie = ?, professor = ?, turma = ?, periodo = ? WHERE codigo = ?';

@@ -4,15 +4,50 @@ const turma = new Turma();
 
 class TurmaController {
     
-    async getAll(req, res) {
-        try {
-            const result = await turma.getAll()
-            return res.status(200).json(result)
-        } catch (error) {
-            console.log("Erro ao buscar turmas" + error)
-            res.status(500).json({ error: "Erro ao buscar turmas" })
-        }
+    // async getAll(req, res) {
+    //     try {
+    //         const result = await turma.getAll()
+    //         return res.status(200).json(result)
+    //     } catch (error) {
+    //         console.log("Erro ao buscar turmas" + error)
+    //         res.status(500).json({ error: "Erro ao buscar turmas" })
+    //     }
 
+    // }
+
+    async getAll(req, res) {
+        res.type('application/json');
+        //express, por meio do controle de rotas, será
+        //preparado para esperar um termo de busca
+        let termo = req.params.termo;
+        if (!termo){
+            termo = "";
+        }
+        if (req.method === "GET"){
+            const turma = new Turma();
+            turma.getAll(termo).then((listaTurmas)=>{
+                res.json(
+                    {
+                        status:true,
+                        listaTurmas: listaTurmas
+                    });
+            })
+            .catch((erro)=>{
+                res.json(
+                    {
+                        status:false,
+                        mensagem:"Não foi possível obter os autores: " + erro.message
+                    }
+                );
+            });
+        }
+        else 
+        {
+            res.status(400).json({
+                "status": false,
+                "mensagem": "Por favor, utilize o método GET para consultar autores!"
+            });
+        }
     }
 
     async filtrar(req, res) {
@@ -46,7 +81,10 @@ class TurmaController {
         const turmaData = req.body;
         try{
             await turma.create(turmaData)
-            res.status(200).json({"menssagem":"Turma cadastrada com sucesso"})
+            res.status(200).json({
+                "status": true,
+                "mensagem": "Turma incluída com sucesso!"
+            })
         }catch(error){
             console.log("Erro ao cadastrar turma "+error+"a")
             res.status(500).json({error: "Erro ao cadastrar turma"})

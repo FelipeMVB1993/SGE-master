@@ -12,7 +12,7 @@ class ProfessorController {
             termo = "";
         }
         if (requisicao.method === "GET"){
-            const professorr = new Professor();
+            const professor = new Professor();
             professor.getAll(termo).then((listaProfessores)=>{
                 resposta.json(
                     {

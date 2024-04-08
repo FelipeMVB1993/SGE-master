@@ -13,6 +13,8 @@ const agendaRoutes = require('./routes/agendaRoutes')
 app.use('/agenda',agendaRoutes);
 const turmaRoutes = require('./routes/turmaRoutes')
 app.use('/turma',turmaRoutes);
+const matriculaRoutes = require('./routes/matriculaRoutes')
+app.use('/matricula',matriculaRoutes);
 const professorRoutes = require('./routes/professorRoutes')
 app.use('/professor',professorRoutes);
 

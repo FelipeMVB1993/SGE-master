@@ -12,24 +12,31 @@ function ComponenteTabela({ isMenuExpanded }) {
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
 
-  const carregaAlunos = async () => {
-    try {
-      const dados = await alunoService.getAllAlunos();
-      setAlunos(dados);
-    } catch (error) {
-      console.log('ERRO:Não foi possível buscar lista de alunos no backend!' + error);
-    }
-  };
+  function buscarAlunos() {
+    fetch('http://localhost:3001/aluno', { method: "GET" })
+      .then(resposta => resposta.json())
+      .then(retorno => {
+        if (retorno.status) {
+          setAlunos(retorno.listaAlunos);
+        }
+      })
+      .catch(erro => {
+        setAlunos([{
+          cpf: 0,
+          nome: "Erro ao recuperar alunos " + erro.message
+        }]);
+      })
+  }
 
   useEffect(() => {
-    carregaAlunos();
+    buscarAlunos();
   }, []);
 
   const handleDelete = async (cpf) => {
     const confirmarExclusao = window.confirm("Deseja realmente excluir?");
     if (confirmarExclusao) {
       await alunoService.deleteAluno(cpf);
-      await carregaAlunos();
+      buscarAlunos();
       setSuccessMessage('Aluno excluído com sucesso!');
       setTimeout(() => {
         setSuccessMessage(null);
@@ -42,7 +49,7 @@ function ComponenteTabela({ isMenuExpanded }) {
   };
 
   const handleRestaurarTabela = async () => {
-    await carregaAlunos();
+    buscarAlunos();
   }
 
   const handleSave = async (aluno) => {
@@ -52,7 +59,7 @@ function ComponenteTabela({ isMenuExpanded }) {
       } else {
         await alunoService.updateAluno(selectedAluno.cpf, aluno);
       }
-      await carregaAlunos();
+      buscarAlunos();
       setSelectedAluno(null);
     } catch (error) {
       console.error('Erro ao salvar aluno:', error);
@@ -65,7 +72,7 @@ function ComponenteTabela({ isMenuExpanded }) {
 
       if (!searchInput) {
         console.log('Sem input pesquisar. Carregar todos alunos.');
-        await carregaAlunos();
+        buscarAlunos();
         return;
       }
 

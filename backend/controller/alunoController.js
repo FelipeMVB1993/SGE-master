@@ -3,13 +3,75 @@ const Aluno = require("../model/entidades/aluno");
 const aluno = new Aluno()
 
 class AlunoController {
-    async getAll(req,res) {
+    // async getAll(req,res) {
+    //     try {
+    //         const result = await aluno.getAll()
+    //         return res.status(200).json(result)
+    //     } catch (error) {
+    //         console.log("Erro ao buscar alunos"+error)
+    //         res.status(500).json({error:"Erro ao buscar alunos"})
+    //     }
+    // }
+
+    async getAll(req, res) {
+        res.type('application/json');
+        //express, por meio do controle de rotas, será
+        //preparado para esperar um termo de busca
+        let termo = req.params.termo;
+        if (!termo){
+            termo = "";
+        }
+        if (req.method === "GET"){
+            const aluno = new Aluno();
+            aluno.getAll(termo).then((listaAlunos)=>{
+                res.json(
+                    {
+                        status:true,
+                        listaAlunos: listaAlunos
+                    });
+            })
+            .catch((erro)=>{
+                res.json(
+                    {
+                        status:false,
+                        mensagem:"Não foi possível obter os autores: " + erro.message
+                    }
+                );
+            });
+        }
+        else 
+        {
+            res.status(400).json({
+                "status": false,
+                "mensagem": "Por favor, utilize o método GET para consultar autores!"
+            });
+        }
+    }
+
+    async filtrar(req, res) {
+        const filtro = req.body;
         try {
-            const result = await aluno.getAll()
-            return res.status(200).json(result)
+          const result = await professor.filtrar(filtro);
+          return res.status(200).json(result);
         } catch (error) {
-            console.log("Erro ao buscar alunos"+error)
-            res.status(500).json({error:"Erro ao buscar alunos"})
+          console.error('Error during filtering:', error);
+          return res.status(500).json({ error: 'Internal Server Error' });
+        }
+      }
+
+
+    async getByCodigo(req, res) {
+        const codigo = req.params.codigo;
+        try {
+            const result = await professor.getByCodigo(codigo)
+            if (result) {
+                return res.status(200).json(result)
+            } else {
+                res.status(404).json({ error: 'Professor não encontrado' })
+            }
+        } catch (error) {
+            console.log("Erro ao buscar professores" + error)
+            res.status(500).json({ error: "Erro ao buscar professores" })
         }
 
     }

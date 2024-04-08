@@ -2,10 +2,9 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import { useState, useEffect } from 'react';
-// import { json } from 'react-router-dom';
 import './cadastroTurma.css';
 
-function CadastroTurma({ selectedTurma, props, onSave }) {
+function CadastroTurma({ selectedTurma, onSave }) {
     const [successMessage, setSuccessMessage] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
     const [validado, setValidado] = useState(false);
@@ -16,45 +15,54 @@ function CadastroTurma({ selectedTurma, props, onSave }) {
         turma: "",
         periodo: "",
         id_professor: ""
-      });
-    
-      useEffect(() => {
-        if (selectedTurma !== null) {
-          setTurmaData(selectedTurma);
-        }
-      }, [selectedTurma]);
+    });
 
     useEffect(() => {
-        buscarProfessores();
-    }, []);
-
-    function selecionarProfessor(evento) {
-        const codigoProfessor = evento.currentTarget.value;
-        setTurmaData({ ...turmaData, id_professor: codigoProfessor });
-    }
-
+        if (selectedTurma !== null) {
+            setTurmaData(selectedTurma);
+        } else {
+            setTurmaData({
+                codigo: "",
+                serie: "",
+                turma: "",
+                periodo: "",
+                id_professor: ""
+            });
+        }
+    }, [selectedTurma]);
 
     function buscarProfessores() {
         fetch('http://localhost:3001/professor', { method: "GET" })
             .then(resposta => resposta.json())
             .then(retorno => {
                 if (retorno.status) {
-                    setProfessores(retorno.listaProfessores);
+                    if (retorno.listaProfessores !== undefined) {
+                        setProfessores(retorno.listaProfessores);
+                    } else {
+                        console.error("Lista de professores não foi encontrada na resposta do servidor.");
+                    }
+                } else {
+                    console.error("Erro ao buscar professores:", retorno.error);
                 }
             })
             .catch(erro => {
+                console.error("Erro ao buscar professores:", erro.message);
                 setProfessores([{
                     id_professor: 0,
                     nome_professor: "Erro ao recuperar professores " + erro.message
                 }]);
             })
     }
-
     // buscar professores ao iniciar o componente (uma unica vez)
     useEffect(() => {
         buscarProfessores()
     }, []); //didMount do React
 
+
+    function selecionarProfessor(evento) {
+        const codigoProfessor = evento.currentTarget.value;
+        setTurmaData({ ...turmaData, id_professor: codigoProfessor });
+    }
 
 
     function manipularMudanca(event) {
@@ -84,10 +92,9 @@ function CadastroTurma({ selectedTurma, props, onSave }) {
                 .then(res => res.json())
                 .then(retorno => {
                     if (retorno.status) {
-                        setSuccessMessage(retorno.menssagem);
-                        props.setExibirTabela(true);
+                        setSuccessMessage(retorno.mensagem);
                     } else {
-                        alert(retorno.menssagem);
+                        setErrorMessage(retorno.mensagem);
                     }
                 })
                 .catch(erro => {

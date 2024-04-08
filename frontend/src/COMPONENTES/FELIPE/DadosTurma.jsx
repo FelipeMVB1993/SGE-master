@@ -25,33 +25,24 @@ function DadosTurma({ isMenuExpanded }) {
       } else {
         await turmaService.updateTurma(selectedTurma.codigo, turma);
       }
-      await carregaTurmas();
       setSelectedTurma(null);
     } catch (error) {
       console.error('Erro ao salvar turma:', error);
     }
   };
 
-  const carregaTurmas = async () => {
-    try {
-      const dados = await turmaService.getAllTurma();
-      setTurmas(dados);
-    } catch (error) {
-      setError('Erro ao carregar turmas' + error);
-    }
-  };
-
+  
   useEffect(() => {
-    carregaTurmas();
     buscarProfessores();
   }, []);
+  
 
 
   const handleDelete = async (codigo) => {
     const confirmarExclusao = window.confirm("Deseja realmente excluir?");
     if (confirmarExclusao) {
       await turmaService.deleteTurma(codigo);
-      await carregaTurmas();
+      buscarTurmas();
       setSuccessMessage('Turma excluída com sucesso!');
       setTimeout(() => {
         setSuccessMessage(null);
@@ -64,7 +55,7 @@ function DadosTurma({ isMenuExpanded }) {
   };
 
   const handleRestaurarTabela = async () => {
-    await carregaTurmas();
+    buscarTurmas();
   }
 
   const handleFiltrar = async () => {
@@ -89,7 +80,21 @@ function DadosTurma({ isMenuExpanded }) {
     }
   };
 
-
+  function buscarTurmas() {
+    fetch('http://localhost:3001/turma', { method: "GET" })
+      .then(resposta => resposta.json())
+      .then(retorno => {
+        if (retorno.status) {
+          setTurmas(retorno.listaTurmas);
+        }
+      })
+      .catch(erro => {
+        setTurmas([{
+          codigo: 0,
+          serie: "Erro ao recuperar turmas " + erro.message
+        }]);
+      })
+  }
 
   function buscarProfessores() {
     fetch('http://localhost:3001/professor', { method: "GET" })
@@ -109,9 +114,9 @@ function DadosTurma({ isMenuExpanded }) {
 
   // buscar professores ao iniciar o componente (uma unica vez)
   useEffect(() => {
-    buscarProfessores()
+    buscarTurmas();
+    buscarProfessores();
   }, []); //didMount do React
-
 
   return (
     <div id="formularioAluno" className={isMenuExpanded ? "expanded" : ""}>
@@ -167,6 +172,7 @@ function DadosTurma({ isMenuExpanded }) {
                 Restaurar Tabela
               </button>
             </div>
+            {error && <div className="alert alert-danger ml-4" role="alert">{error}</div>}
             {turmas.length === 0 ? (
               <div className="alert alert-danger ml-4 text-center mx-auto" role="alert">
                 ERRO: Não foi possível buscar a lista de turmas no backend!

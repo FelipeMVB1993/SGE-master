@@ -50,6 +50,26 @@ class AlunoService {
             throw error;
         }
     }
+    
+    async filtrarPorNome(nome) {
+        try {
+            const response = await fetch(`${API_BASE_URL}/aluno/filtrar`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ nome: nome })
+            })
+            if (!response.ok) {
+                throw new Error('Erro ao filtrar aluno por nome');
+            }
+            return await response.json();
+        } catch (error) {
+            console.error('Erro ao filtrar aluno por nome:', error);
+            throw error;
+        }
+    }
+    
 
     async updateAluno(cpf, alunoData) {
         try {
