@@ -46,6 +46,8 @@ import DadosAgenda from './COMPONENTES/FELIPE/DadosAgenda';
 import DadosTurma from './COMPONENTES/FELIPE/DadosTurma';
 import DadosMatricula from './COMPONENTES/FELIPE/DadosMatricula';
 import CadastroResponsavel from "./COMPONENTES/MARIANE/CadastroResponsavel";
+import FormFuncionario from './COMPONENTES/MARIO/CadastroFuncionario';
+
 function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isMenuExpanded, setMenuExpanded] = useState(false);
@@ -70,6 +72,9 @@ function App() {
             <Route path="/cadastroTurma" element={<DadosTurma isMenuExpanded={isMenuExpanded} />} />
             <Route path="/matriculas" element={<DadosMatricula isMenuExpanded={isMenuExpanded} />} />
             <Route path="/cadastroResponsavel" element={<CadastroResponsavel isMenuExpanded={isMenuExpanded} />}/>
+            <Route path="/cadastroFuncionarios"element={<FormFuncionario isMenuExpanded={isMenuExpanded}></FormFuncionario>
+          }
+        />
           </Routes>
         </>
       )}
