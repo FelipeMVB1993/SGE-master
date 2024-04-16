@@ -3,44 +3,33 @@ const Matricula = require("../model/entidades/matricula");
 const matricula = new Matricula();
 
 class MatriculaController {
-    // async getAll(req, res) {
-    //     try {
-    //         const result = await matricula.getAll()
-    //         return res.status(200).json(result)
-    //     } catch (error) {
-    //         console.log("Erro ao buscar matriculas" + error)
-    //         res.status(500).json({ error: "Erro ao buscar disciplinas" })
-    //     }
-    // }
-
     async getAll(req, res) {
         res.type('application/json');
         //express, por meio do controle de rotas, será
         //preparado para esperar um termo de busca
         let termo = req.params.termo;
-        if (!termo){
+        if (!termo) {
             termo = "";
         }
-        if (req.method === "GET"){
+        if (req.method === "GET") {
             const matricula = new Matricula();
-            matricula.getAll(termo).then((listaMatriculas)=>{
+            matricula.getAll(termo).then((listaMatriculas) => {
                 res.json(
                     {
-                        status:true,
+                        status: true,
                         listaMatriculas: listaMatriculas
                     });
             })
-            .catch((erro)=>{
-                res.json(
-                    {
-                        status:false,
-                        mensagem:"Não foi possível obter os autores: " + erro.message
-                    }
-                );
-            });
+                .catch((erro) => {
+                    res.json(
+                        {
+                            status: false,
+                            mensagem: "Não foi possível obter os autores: " + erro.message
+                        }
+                    );
+                });
         }
-        else 
-        {
+        else {
             res.status(400).json({
                 "status": false,
                 "mensagem": "Por favor, utilize o método GET para consultar autores!"
@@ -49,41 +38,28 @@ class MatriculaController {
     }
 
     async filtrar(req, res) {
-        const filtro = req.body;
+        const cpf = req.body;
         try {
-          const result = await disciplina.filtrar(filtro);
-          return res.status(200).json(result);
+            const result = await matricula.filtrar(cpf);
+            return res.status(200).json(result);
         } catch (error) {
-          console.error('Error during filtering:', error);
-          return res.status(500).json({ error: 'Internal Server Error' });
+            console.error('Error during filtering:', error);
+            return res.status(500).json({ error: 'Internal Server Error' });
         }
-      }
+    }
 
-
-      async filtrar(req, res) {
-        const filtro = req.body;
+    async filtrarMatriculaAluno(req, res) {
+        const { cpf } = req.params;
         try {
-          const result = await matricula.filtrar(filtro);
-          return res.status(200).json(result);
+            const result = await matricula.filtrarMatriculaAluno(cpf);
+            console.log(result)
+            return res.status(200).json(result);
         } catch (error) {
-          console.error('Error during filtering:', error);
-          return res.status(500).json({ error: 'Internal Server Error' });
+            console.error('Error during filtering:', error);
+            return res.status(500).json({ error: 'Internal Server Error' });
         }
-      }
+    }
 
-    // async create(req, res) {
-    //     const matriculaData = req.body;
-    //     try {
-    //         await matricula.create(matriculaData)
-    //         res.status(200).json({
-    //             "status": true,
-    //             "mensagem": "Aluno matriculado com sucesso!"
-    //         })
-    //     } catch (error) {
-    //         console.log("Erro ao matricular aluno" + error)
-    //         res.status(500).json({ error: "Erro ao matricular aluno" })
-    //     }
-    // }
 
     async create(req, res) {
         const matriculaData = req.body;
@@ -97,39 +73,39 @@ class MatriculaController {
             if (error.code === 'ER_DUP_ENTRY') {
                 res.status(400).json({
                     "status": false,
-                    "mensagem": "Não foi possível realizar a matrícula pois o aluno já está matriculado me outra turma."
+                    "mensagem": "Não foi possível realizar a matrícula pois o aluno já está matriculado em outra turma."
                 });
             } else {
                 console.log("Erro ao matricular aluno", error);
-                res.status(500).json({ 
+                res.status(500).json({
                     "status": false,
-                    "mensagem": "Erro ao matricular aluno" 
+                    "mensagem": "Erro ao matricular aluno"
                 });
             }
         }
     }
-    
+
 
     async update(req, res) {
-        const codigo = req.params.codigo;
-        const disciplinaData = req.body;
+        const cpf = req.body.cpf;
+        const matriculaData = req.body;
         try {
-            await disciplina.update(codigo, disciplinaData)
-            res.status(200).json({ message: "Disciplina atualizada com sucesso" })
+            await matricula.update(cpf, matriculaData)
+            res.status(200).json({ message: "Matricula atualizada com sucesso" })
         } catch (error) {
-            console.log("Erro ao atualizar disciplina" + error)
-            res.status(500).json({ error: "Erro ao atualizar disciplina" })
+            console.log("Erro ao atualizar matricula" + error)
+            res.status(500).json({ error: "Erro ao atualizar matricula" })
         }
     }
 
-    async deleteMatricula(req,res){
+    async deleteMatricula(req, res) {
         const cpf = req.params.cpf;
-        try{
+        try {
             await matricula.deleteMatricula(cpf);
-            res.status(200).json({message:'Matricula deletada com sucesso!'})
-        }catch(error){
-            console.log('Erro ao deletar turma',error)
-            res.status(500).json({error:'Erro ao deletar turma'})
+            res.status(200).json({ message: 'Matricula deletada com sucesso!' })
+        } catch (error) {
+            console.log('Erro ao deletar turma', error)
+            res.status(500).json({ error: 'Erro ao deletar turma' })
         }
     }
 

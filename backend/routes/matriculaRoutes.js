@@ -4,7 +4,7 @@ const router = express.Router();
 const matriculaController = new MatriculaController
 
 router.get('/',matriculaController.getAll)
-router.get('/:cpf',matriculaController.filtrar)
+router.get('/:cpf',matriculaController.filtrarMatriculaAluno)
 router.delete('/:cpf',matriculaController.deleteMatricula)
 router.post('/',matriculaController.create)
 router.put('/:codigo',matriculaController.update)

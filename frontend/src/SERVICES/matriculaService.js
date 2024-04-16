@@ -2,20 +2,6 @@ const API_BASE_URL = 'http://localhost:3001';
 
 class MatriculaService {
 
-    // async getAllTurma() {
-    //     try {
-    //         const response = await fetch(`${API_BASE_URL}/turma`)
-    //         if (!response.ok) {
-    //             throw new Error(' Erro ao buscar turma!')
-    //         }
-    //         const dados = await response.json();
-    //         return dados;
-    //     } catch (error) {
-    //         console.log('Erro ao buscar turma:', error);
-    //         throw error;
-    //     }
-    // }
-
     async getAllTurma() {
         try {
             const response = await fetch(`${API_BASE_URL}/turma`);
@@ -45,24 +31,6 @@ class MatriculaService {
     }
     
 
-    // async filtrar(filtroData){
-    //     try{
-    //         const response = await fetch(`${API_BASE_URL}/matricula/filtrar`,{
-    //             method:"POST",
-    //             headers:{
-    //                 'Content-Type': 'application/json',
-    //             },
-    //             body:JSON.stringify(filtroData)
-    //         })
-    //         if(!response.ok){
-    //             throw new Error('Erro ao filtrar matricula')
-    //         }
-    //         return await response.json()
-    //     }catch(error){
-    //         throw error;
-    //     }
-    // }
-
     async filtrar({ cpf }) {
         try {
             const response = await fetch(`${API_BASE_URL}/matricula/filtrar`, {
@@ -81,68 +49,35 @@ class MatriculaService {
         }
     }
 
-    // async filtrarPorNome(nome) {
-    //     try {
-    //         const response = await fetch(`${API_BASE_URL}/aluno/filtrarPorNome`, {
-    //             method: "POST",
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //             },
-    //             body: JSON.stringify({ nome: nome })
-    //         });
-    //         if (!response.ok) {
-    //             throw new Error('Erro ao filtrar aluno pelo nome');
-    //         }
-    //         const aluno = await response.json();
-    //         return aluno;
-    //     } catch (error) {
-    //         throw error;
-    //     }
-    // }
-    
-    // async filtrarPorNome(nome) {
-    //     try {
-    //         const response = await fetch(`${API_BASE_URL}/aluno/filtrarPorNome/${nome}`);
-    //         if (!response.ok) {
-    //             throw new Error('Erro ao filtrar aluno pelo nome');
-    //         }
-    //         const aluno = await response.json();
-    //         return aluno;
-    //     } catch (error) {
-    //         throw error;
-    //     }
-    // }
-    
-    
 
-    async createTurma(turmaData) {
+    async createMatricula(matriculaData) {
         try {
-            const response = await fetch(`${API_BASE_URL}/turma`, {
+            const response = await fetch(`${API_BASE_URL}/matricula`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(turmaData)
+                body: JSON.stringify(matriculaData)
             })
             if (!response.ok) {
-                throw new Error('Erro ao cadastrar Turma')
+                throw new Error('Erro ao matricular aluno')
             }
         } catch (error) {
             throw error;
         }
     }
 
-    async updateTurma(codigo, turmaData) {
+    async updateMatricula(cpf, matriculaData) {
         try {
-            const response = await fetch(`${API_BASE_URL}/turma/${codigo}`, {
+            const response = await fetch(`${API_BASE_URL}/matricula/${cpf}`, {
                 method: "PUT",
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(turmaData)
+                body: JSON.stringify(matriculaData)
             })
             if (!response.ok) {
-                throw new Error('Erro ao atualizar a Turma')
+                throw new Error('Erro ao atualizar a matricula')
             }
         } catch (error) {
             throw error;

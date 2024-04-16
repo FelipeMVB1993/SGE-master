@@ -7,6 +7,7 @@ const matriculaService = new MatriculaService();
 
 function DadosMatricula({ isMenuExpanded }) {
   const [matriculas, setMatriculas] = useState([]);
+  const [selectedMatricula, setSelectedMatricula] = useState(null);
   const [searchInput, setSearchInput] = useState('');
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
@@ -106,10 +107,6 @@ function DadosMatricula({ isMenuExpanded }) {
     buscarMatriculas()
   }, []); //didMount do React
 
-  const handleEdit = (cpf) => {
-    const aluno = alunos.find((aluno) => aluno.cpf === cpf);
-    setAlunoSelecionado(aluno);
-  };
   
   
   const handleDelete = async (cpf) => {
@@ -122,6 +119,11 @@ function DadosMatricula({ isMenuExpanded }) {
         setSuccessMessage(null);
       }, 5000);
     }
+  };
+
+  const handleEdit = async (matricula) => {
+    console.log(matricula)
+    setSelectedMatricula(matricula);
   };
 
   const handleFiltrar = async () => {
@@ -153,11 +155,15 @@ function DadosMatricula({ isMenuExpanded }) {
     }
   };
 
+  const handleSave = async () => { 
+      buscarMatriculas();
+  };
+
   return (
     <div id="formularioAluno" className={isMenuExpanded ? "expanded" : ""}>
       <div className="main--content">
         <div className="form--wrapper">
-          <MatricularAluno alunoSelecionado={alunoSelecionado}></MatricularAluno>
+          <MatricularAluno selectedMatricula={selectedMatricula} onSave={handleSave}></MatricularAluno>
           <div id='mensagem'>
             {successMessage && (
               <div className="alert alert-success" role="alert">

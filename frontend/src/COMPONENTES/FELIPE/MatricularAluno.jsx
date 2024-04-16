@@ -3,9 +3,11 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import { useState, useEffect } from 'react';
 import './cadastroTurma.css';
+import MatriculaService from '../../SERVICES/matriculaService.js';
 
+const matriculaService = new MatriculaService();
 
-function MatricularAluno() {
+function MatricularAluno({selectedMatricula, onSave}) {
     const [turmas, setTurmas] = useState([]);
     const [alunos, setAlunos] = useState([]);
     const [validado, setValidado] = useState(false);
@@ -15,6 +17,12 @@ function MatricularAluno() {
         cpf_aluno: "",
         codigo_turma: ""
     });
+
+    useEffect(() => {
+        if (selectedMatricula != null) {
+            setMatriculaData(selectedMatricula);
+        }
+    }, [selectedMatricula]);
 
     function buscarAlunos() {
         fetch('http://localhost:3001/aluno', { method: "GET" })
@@ -102,10 +110,11 @@ function MatricularAluno() {
     //                         setSuccessMessage(null);
     //                     }, 5000);
     //                     limparFormulario();
+    //                     onSave();
     //                 } else {
     //                     setErrorMessage(retorno.mensagem);
     //                     setTimeout(() => {
-    //                         setSuccessMessage(null);
+    //                         setErrorMessage(null);
     //                     }, 5000);
     //                 }
     //             })
@@ -115,7 +124,8 @@ function MatricularAluno() {
     //     }
     // }
 
-    function manipularSubmissao(evento) {
+
+    async function manipularSubmissao(evento) {
         evento.preventDefault();
         evento.stopPropagation();
         const form = evento.currentTarget;
@@ -124,33 +134,31 @@ function MatricularAluno() {
         }
         else {
             setValidado(false);
-            fetch('http://localhost:3001/matricula', {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(matriculaData)
-            })
-                .then(res => res.json())
-                .then(retorno => {
-                    if (retorno.status) {
-                        setSuccessMessage(retorno.mensagem)
-                        setTimeout(() => {
-                            setSuccessMessage(null);
-                        }, 5000);
-                        limparFormulario();
-                    } else {
-                        setErrorMessage(retorno.mensagem);
-                        setTimeout(() => {
-                            setErrorMessage(null);
-                        }, 5000);
-                    }
-                })
-                .catch(erro => {
-                    alert("Erro: " + erro.message);
-                })
+            try {
+                if (selectedMatricula === null) {
+                    await matriculaService.createMatricula(matriculaData);
+                    limparFormulario();
+                    setSuccessMessage('Aluno matriculado com sucesso!');
+                } else {
+                    await matriculaService.updateMatricula(selectedMatricula.cpf, matriculaData);
+                    limparFormulario();
+                    setSuccessMessage('Matricula atualizada com sucesso!');
+                }
+                setTimeout(() => {
+                    setSuccessMessage(null);
+                }, 5000);
+
+                // Chama a função onSave passada como propriedade para atualizar a tabela no pai
+                onSave(matriculaData);
+            } catch (error) {
+                setErrorMessage(`ERRO: ${error.message}`);
+                setTimeout(() => {
+                    setErrorMessage(null);
+                }, 5000);
+            }
         }
     }
+
 
 
     const limparFormulario = () => {
@@ -173,7 +181,7 @@ function MatricularAluno() {
                     <Form.Group as={Col} md="6">
                         <div className="form-group borda-form ">
                             <Form.Label><i class="bi bi-person-fill"></i>Aluno:</Form.Label>
-                            <Form.Select id='cpf_aluno' name='cpf_aluno' className="form-select form-control form-control-sm" onChange={selecionarAluno}>
+                            <Form.Select id='cpf_aluno' name='cpf_aluno' className="form-select form-control form-control-sm" value={matriculaData.cpf_aluno} onChange={selecionarAluno}>
                                 <option key={0} value={0}>Selecione</option>
                                 {
                                     alunos.map((aluno) => {
@@ -188,7 +196,7 @@ function MatricularAluno() {
                     </Form.Group>
                     <Form.Group as={Col} md="6">
                         <Form.Label><i class="bi bi-people-fill"></i>Turma:</Form.Label>
-                        <Form.Select id='codigo_turma' name='codigo_turma' className="form-select form-control form-control-sm" onChange={selecionarTurma}>
+                        <Form.Select id='codigo_turma' name='codigo_turma' className="form-select form-control form-control-sm" value={matriculaData.codigo_turma} onChange={selecionarTurma}>
                             <option key={0} value={0}>Selecione</option>
                             {
                                 turmas.map((tur) => {
