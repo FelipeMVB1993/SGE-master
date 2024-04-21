@@ -15,7 +15,7 @@ import {
 
 import Dados from "./Dados";
 
-import ResponsavelService from "../../SERVICES/responsavelService";
+import ResponsavelService from '../../SERVICES/responsavelService';
 
 const responsavelService = new ResponsavelService();
 

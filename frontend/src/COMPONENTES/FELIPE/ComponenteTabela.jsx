@@ -52,19 +52,23 @@ function ComponenteTabela({ isMenuExpanded }) {
     buscarAlunos();
   }
 
-  const handleSave = async (aluno) => {
-    try {
-      if (selectedAluno === null) {
-        await alunoService.createAluno(aluno);
-      } else {
-        await alunoService.updateAluno(selectedAluno.cpf, aluno);
-      }
-      buscarAlunos();
-      setSelectedAluno(null);
-    } catch (error) {
-      console.error('Erro ao salvar aluno:', error);
-    }
-  };
+  // const handleSave = async (aluno) => {
+  //   try {
+  //     if (selectedAluno === null) {
+  //       await alunoService.createAluno(aluno);
+  //     } else {
+  //       await alunoService.updateAluno(selectedAluno.cpf, aluno);
+  //     }
+  //     buscarAlunos();
+  //     setSelectedAluno(null);
+  //   } catch (error) {
+  //     console.error('Erro ao salvar aluno:', error);
+  //   }
+  // };
+
+  const handleSave = async () => { 
+    buscarAlunos();
+};
 
   const handleFiltrar = async () => {
     try {

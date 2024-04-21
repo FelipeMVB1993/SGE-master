@@ -183,7 +183,7 @@ function DadosMatricula({ isMenuExpanded }) {
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Informe o cpf do aluno"
+                    placeholder="Informe o nome ou cpf do aluno"
                     aria-label="Username"
                     aria-describedby="addon-wrapping"
                     name="cpf"

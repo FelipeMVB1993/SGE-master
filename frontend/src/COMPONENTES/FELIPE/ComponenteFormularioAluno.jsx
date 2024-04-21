@@ -102,11 +102,6 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
         setQuantidadeAlunos(1);
     };
 
-    const carregarTabela = () => {
-        setTimeout(() => {
-            window.location.reload();
-        }, 3000);
-    };
 
 
     const handleSubmit = async (event) => {
@@ -116,7 +111,6 @@ function ComponenteFormularioAluno({ selectedAluno, onSave }) {
                 if (selectedAluno === null) {
                     await alunoService.createAluno(alunoData);
                     limparFormulario();
-                    carregarTabela();
                     setSuccessMessage('Aluno cadastrado com sucesso!');
                 } else {
                     await alunoService.updateAluno(selectedAluno.cpf, alunoData);
