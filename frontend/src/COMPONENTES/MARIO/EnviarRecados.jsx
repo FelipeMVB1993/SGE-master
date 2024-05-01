@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Form, Row, Col, Button } from 'react-bootstrap';
+import { Form, Button, Alert } from 'react-bootstrap';
 import axios from 'axios';
 
-
-function EnviarRecados() {
+function EnviarRecados({ isMenuExpanded }) {
     const [destinatario, setDestinatario] = useState('');
     const [assunto, setAssunto] = useState('');
     const [mensagem, setMensagem] = useState('');
+    const [enviado, setEnviado] = useState(false);
 
     const handleDestinatarioChange = (event) => {
         setDestinatario(event.target.value);
@@ -27,9 +27,14 @@ function EnviarRecados() {
             setDestinatario('');
             setAssunto('');
             setMensagem('');
+            setEnviado(true);
             console.log("Recado enviado com sucesso!");
+
+            setTimeout(() => {
+                setEnviado(false);
+            }, 4000);
         } catch (error) {
-            console.error("Erro ao enviar recado:", error);
+            alert("Erro ao enviar recado:", error);
         }
     };
 
@@ -42,40 +47,36 @@ function EnviarRecados() {
     };
 
     return (
-        <div className="enviar-recados-container">
-            <div className="section-title text-center position-relative pb-3 mx-auto">
-                <h3 className="fw-bold text-uppercase">
-                    <i className="bi bi-people-fill"></i>
+        <div id="formularioResponsavel" className={isMenuExpanded ? "expanded" : ""}>
+            <div class="section-title text-center position-relative pb-3 mx-auto">
+                <h3 class="fw-bold text-uppercase">
+                    <i class="bi bi-people-fill"> </i>
                     ENVIAR RECADO
                 </h3>
             </div>
-            <Form onSubmit={handleSubmit}>
-                <Form.Group as={Row} className="mb-3">
-                    <Form.Label column sm={3}>Destinatário:</Form.Label>
-                    <Col sm={9}>
-                        <Form.Control type="email" value={destinatario} onChange={handleDestinatarioChange} placeholder="Inserir email do aluno" />
-                    </Col>
+            <Form onSubmit={handleSubmit} className="form--wrapper w-75">
+                <Form.Group className="mb-3">
+                    <Form.Label>Destinatário:</Form.Label>
+                    <Form.Control type="email" value={destinatario} onChange={handleDestinatarioChange} placeholder="Inserir email do aluno" />
                 </Form.Group>
-                <Form.Group as={Row} className="mb-3">
-                    <Form.Label column sm={3}>Assunto:</Form.Label>
-                    <Col sm={9}>
-                        <Form.Control type="text" value={assunto} onChange={handleAssuntoChange} placeholder="Assunto..." />
-                    </Col>
+                <Form.Group className="mb-3">
+                    <Form.Label>Assunto:</Form.Label>
+                    <Form.Control type="text" value={assunto} onChange={handleAssuntoChange} placeholder="Descrever assunto..." />
                 </Form.Group>
-                <Form.Group as={Row} className="mb-3">
-                    <Form.Label column sm={3}>Mensagem:</Form.Label>
-                    <Col sm={9}>
-                        <Form.Control as="textarea" rows={3} value={mensagem} onChange={handleMensagemChange} placeholder="Inserir a mensagem..." />
-                    </Col>
+                <Form.Group className="mb-3">
+                    <Form.Label>Mensagem:</Form.Label>
+                    <Form.Control as="textarea" rows={3} value={mensagem} onChange={handleMensagemChange} placeholder="Inserir a mensagem..." />
                 </Form.Group>
                 <div className="text-center">
-                    <Button type="submit">Enviar Recado</Button>
+                    <Button type="submit" variant="primary">Enviar</Button>
                 </div>
             </Form>
-            <div>
-                <div id='mensagem'>
-                    {/* Mensagens de sucesso e erro */}
-                </div>
+            <div className="w-75">
+                {enviado && (
+                    <Alert variant="success" className="mt-3">
+                        Recado enviado com sucesso!
+                    </Alert>
+                )}
             </div>
         </div>
     );
