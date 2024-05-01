@@ -29,6 +29,9 @@ h2{
 #formularioResponsavel {
   margin-left: 120px;
   transition: margin-left 0.5s linear;
+  display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #formularioResponsavel.expanded {

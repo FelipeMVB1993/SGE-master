@@ -75,6 +75,7 @@ function ComponenteMenu({ isMenuExpanded, setMenuExpanded }) {
     { name: "Matrículas", path: "/matriculas", iconClass: "bi bi-person-fill-up" },
     { name: "Disciplinas", path: "/cadastroDisciplina", iconClass: "bi bi-book-fill" },
     { name: "Disponibilidade do Professor", path: "/cadastroAgenda", iconClass: "bi bi-calendar-check-fill" },
+    { name: "Recados", path: "/recados", iconClass: "bi bi-calendar-check-fill" },
     { name: "Voltar", path: "/cadastro", iconClass: "fas fa-arrow-left" }
   ];
 
