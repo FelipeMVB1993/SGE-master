@@ -87,10 +87,10 @@ class MatriculaController {
 
 
     async update(req, res) {
-        const cpf = req.body.cpf;
+        const cpf_aluno = req.body.cpf_aluno;
         const matriculaData = req.body;
         try {
-            await matricula.update(cpf, matriculaData)
+            await matricula.update(cpf_aluno, matriculaData)
             res.status(200).json({ message: "Matricula atualizada com sucesso" })
         } catch (error) {
             console.log("Erro ao atualizar matricula" + error)

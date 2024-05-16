@@ -30,3 +30,9 @@ CREATE TABLE agenda (
     hora VARCHAR(100) NOT NULL,
     CONSTRAINT pk_agenda PRIMARY KEY(codigo)
 );
+
+CREATE TABLE matricula (
+    cpf_aluno VARCHAR(100) NOT NULL,
+    codigo_turma VARCHAR(100) NOT NULL,
+    CONSTRAINT pk_cpf_aluno PRIMARY KEY(cpf_aluno)
+)
