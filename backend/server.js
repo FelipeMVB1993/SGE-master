@@ -33,6 +33,9 @@ app.use("/funcionarios", funcionarioRoutes);
 const emailRoutes = require("./routes/emailRoutes"); 
 app.use("/email", emailRoutes); 
 
+const notaRoutes = require("./routes/notaRoutes");
+app.use("/nota", notaRoutes);
+
 app.listen(porta, () => {
   console.log("Servidor escutando na porta:", porta);
 });
