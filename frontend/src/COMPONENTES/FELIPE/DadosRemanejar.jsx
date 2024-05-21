@@ -117,6 +117,7 @@ function DadosRemanejar({ isMenuExpanded }) {
       </div>
     </div>
   );
+  
 }
 
 export default DadosRemanejar;

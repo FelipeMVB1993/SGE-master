@@ -36,6 +36,9 @@ app.use("/email", emailRoutes);
 const agendamentoRoutes = require("./routes/agendamentoRoutes");
 app.use("/agendamento", agendamentoRoutes);
 
+const notaRoutes = require("./routes/notaRoutes");
+app.use("/nota", notaRoutes);
+
 app.listen(porta, () => {
   console.log("Servidor escutando na porta:", porta);
 });
