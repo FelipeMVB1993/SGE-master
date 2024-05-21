@@ -132,6 +132,7 @@ function CadastroTurma({ selectedTurma, onSave }) {
                                 placeholder="0"
                                 id="codigo"
                                 name="codigo"
+                                value={turmaData.codigo}
                                 onChange={manipularMudanca}
                             />
                             <Form.Control.Feedback type='invalid'>Por favor, informe o código do .</Form.Control.Feedback>
@@ -142,7 +143,7 @@ function CadastroTurma({ selectedTurma, onSave }) {
                     <Form.Group as={Col} md="6">
                         <div className="form-group borda-form ">
                             <Form.Label>Ano/Série</Form.Label>
-                            <Form.Select id='serie' name='serie' className="form-select form-control form-control-sm" onChange={manipularMudanca}>
+                            <Form.Select id='serie' name='serie' className="form-select form-control form-control-sm" value={turmaData.serie} onChange={manipularMudanca}>
                                 <option value={0}>Selecione</option>
                                 <option value={"1 Ano"}>1º Ano</option>
                                 <option value={"2 Ano"}>2º Ano</option>
@@ -155,7 +156,7 @@ function CadastroTurma({ selectedTurma, onSave }) {
                     </Form.Group>
                     <Form.Group as={Col} md="6">
                         <Form.Label>Turma</Form.Label>
-                        <Form.Select id='turma' name='turma' className="form-select form-control form-control-sm" onChange={manipularMudanca}>
+                        <Form.Select id='turma' name='turma' className="form-select form-control form-control-sm" value={turmaData.turma} onChange={manipularMudanca}>
                             <option value={0}>Selecione</option>
                             <option value={"A"}>A</option>
                             <option value={"B"}>B</option>
@@ -169,7 +170,7 @@ function CadastroTurma({ selectedTurma, onSave }) {
                     <Form.Group as={Col} md="6" >
                         <div className="form-group borda-form ">
                             <Form.Label>Período</Form.Label>
-                            <Form.Select id='periodo' name='periodo' className="form-select form-control form-control-sm" onChange={manipularMudanca}>
+                            <Form.Select id='periodo' name='periodo' className="form-select form-control form-control-sm" value={turmaData.periodo} onChange={manipularMudanca}>
                                 <option value={0}>Selecione</option>
                                 <option value={"Manhã"}>Manhã</option>
                                 <option value={"Tarde"}>Tarde</option>
@@ -181,7 +182,7 @@ function CadastroTurma({ selectedTurma, onSave }) {
                     </Form.Group>
                     <Form.Group as={Col} md="6">
                         <Form.Label>Professor:</Form.Label>
-                        <Form.Select id='id_professor' name='id_professor' className="form-select form-control form-control-sm" onChange={selecionarProfessor}>
+                        <Form.Select id='id_professor' name='id_professor' className="form-select form-control form-control-sm" value={turmaData.id_professor} onChange={selecionarProfessor}>
                             <option key={0} value={0}>Selecione</option>
                             {
                                 professores.map((professor) => {

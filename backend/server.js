@@ -31,7 +31,10 @@ const funcionarioRoutes = require("./routes/FuncionarioRoutes.js");
 app.use("/funcionarios", funcionarioRoutes);
 
 const emailRoutes = require("./routes/emailRoutes"); 
-app.use("/email", emailRoutes); 
+app.use("/email", emailRoutes);
+
+const agendamentoRoutes = require("./routes/agendamentoRoutes");
+app.use("/agendamento", agendamentoRoutes);
 
 app.listen(porta, () => {
   console.log("Servidor escutando na porta:", porta);

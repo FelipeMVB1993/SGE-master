@@ -143,21 +143,21 @@ function CadastroAgenda({ selectedAgenda, onSave }) {
                                 required
                             >
                                 <option value="" selected disabled>Selecione</option>
-                                <option value="1-ANO-A">1º Ano A</option>
-                                <option value="1-ANO-B">1º Ano B</option>
-                                <option value="1-ANO-C">1º Ano C</option>
-                                <option value="2-ANO-A">2º Ano A</option>
-                                <option value="2-ANO-B">2º Ano B</option>
-                                <option value="2-ANO-C">2º Ano C</option>
-                                <option value="3-ANO-A">3º Ano A</option>
-                                <option value="3-ANO-B">3º Ano B</option>
-                                <option value="3-ANO-C">3º Ano C</option>
-                                <option value="4-ANO-A">4º Ano A</option>
-                                <option value="4-ANO-B">4º Ano B</option>
-                                <option value="4-ANO-C">4º Ano C</option>
-                                <option value="5-ANO-A">5º Ano A</option>
-                                <option value="5-ANO-B">5º Ano B</option>
-                                <option value="5-ANO-C">5º Ano C</option>
+                                <option value="1 Ano A">1º Ano A</option>
+                                <option value="1 Ano B">1º Ano B</option>
+                                <option value="1 Ano C">1º Ano C</option>
+                                <option value="2 Ano A">2º Ano A</option>
+                                <option value="2 Ano B">2º Ano B</option>
+                                <option value="2 Ano C">2º Ano C</option>
+                                <option value="3 Ano A">3º Ano A</option>
+                                <option value="3 Ano B">3º Ano B</option>
+                                <option value="3 Ano C">3º Ano C</option>
+                                <option value="4 Ano A">4º Ano A</option>
+                                <option value="4 Ano B">4º Ano B</option>
+                                <option value="4 Ano C">4º Ano C</option>
+                                <option value="5 Ano A">5º Ano A</option>
+                                <option value="5 Ano B">5º Ano B</option>
+                                <option value="5 Ano C">5º Ano C</option>
                             </select>
                             <div class="invalid-feedback">
                                 Informe a turma

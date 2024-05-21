@@ -77,6 +77,7 @@ function ComponenteMenu({ isMenuExpanded, setMenuExpanded }) {
     { name: "Disponibilidade do Professor", path: "/cadastroAgenda", iconClass: "bi bi-calendar-check-fill" },
     { name: "Recados", path: "/recados", iconClass: "bi bi-calendar-check-fill" },
     { name: "Remanejar Alunos", path: "/remanejar", iconClass: "bi bi-person" },
+    { name: "Agendar Reunião", path: "/agendamentos", iconClass: "bi bi-person" },
     { name: "Voltar", path: "/cadastro", iconClass: "fas fa-arrow-left" }
   ];
 

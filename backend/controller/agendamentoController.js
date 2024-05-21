@@ -1,20 +1,9 @@
-const Agenda = require("../model/entidades/agenda");
+const Agendamento = require("../model/entidades/agendamento");
 
-const agenda = new Agenda();
+const agenda = new Agendamento();
 
-class AgendaController {
+class AgendamentoController {
     
-    // async getAll(req, res) {
-    //     try {
-    //         const result = await agenda.getAll()
-    //         return res.status(200).json(result)
-    //     } catch (error) {
-    //         console.log("Erro ao buscar agendas" + error)
-    //         res.status(500).json({ error: "Erro ao buscar agendas" })
-    //     }
-
-    // }
-
     async getAll(req, res) {
         res.type('application/json');
         //express, por meio do controle de rotas, será
@@ -24,7 +13,7 @@ class AgendaController {
             termo = "";
         }
         if (req.method === "GET"){
-            const agenda = new Agenda();
+            const agenda = new Agendamento();
             agenda.getAll(termo).then((listaAgendas)=>{
                 res.json(
                     {
@@ -82,7 +71,10 @@ class AgendaController {
         const agendaData = req.body;
         try {
             await agenda.create(agendaData)
-            res.status(200).json({ message: "Agenda cadastrado com sucesso" })
+            res.status(200).json({
+                "status": true,
+                "mensagem": "Agendamento realizado com sucesso!"
+            })
         } catch (error) {
             console.log("Erro ao cadastrar agenda" + error)
             res.status(500).json({ error: "Erro ao cadastrar agenda" })
@@ -114,4 +106,4 @@ class AgendaController {
 
 }
 
-module.exports = AgendaController;
+module.exports = AgendamentoController;

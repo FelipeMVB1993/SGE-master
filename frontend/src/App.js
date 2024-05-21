@@ -13,6 +13,7 @@ import CadastroResponsavel from "./COMPONENTES/MARIANE/CadastroResponsavel";
 import FormFuncionario from './COMPONENTES/MARIO/CadastroFuncionario';
 import EnviarRecados from './COMPONENTES/MARIO/EnviarRecados';
 import DadosRemanejar from './COMPONENTES/FELIPE/DadosRemanejar';
+import DadosAgendamento from './COMPONENTES/FELIPE/DadosAgendamento';
 
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
             <Route path="/cadastroFuncionarios" element={<FormFuncionario isMenuExpanded={isMenuExpanded} />} />
             <Route path="/recados" element={<EnviarRecados isMenuExpanded={isMenuExpanded} />} />
             <Route path="/remanejar" element={<DadosRemanejar isMenuExpanded={isMenuExpanded} />} />
+            <Route path="/agendamentos" element={<DadosAgendamento isMenuExpanded={isMenuExpanded} />} />
           </Routes>
         </>
       )}

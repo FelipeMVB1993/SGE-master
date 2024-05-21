@@ -5,18 +5,54 @@ const responsavel = new Responsavel()
 
 class ResponsavelController{
 
-    async getAll (req,res){
+    // async getAll (req,res){
 
-        try{
-            const result = await responsavel.getAll()
-            return res.status(200).json(result)
+    //     try{
+    //         const result = await responsavel.getAll()
+    //         return res.status(200).json(result)
+    //     }
+
+    //     catch (error){
+    //         console.log('Erro ao buscar responsável:'+ error);
+    //         res.status(500).json({error:'Erro ao buscar Responsável'})
+    //     }
+
+    // }
+
+
+    async getAll(req, res) {
+        res.type('application/json');
+        //express, por meio do controle de rotas, será
+        //preparado para esperar um termo de busca
+        let termo = req.params.termo;
+        if (!termo){
+            termo = "";
         }
-
-        catch (error){
-            console.log('Erro ao buscar responsável:'+ error);
-            res.status(500).json({error:'Erro ao buscar Responsável'})
+        if (req.method === "GET"){
+            const responsavel = new Responsavel();
+            responsavel.getAll(termo).then((listaResponsaveis)=>{
+                res.json(
+                    {
+                        status:true,
+                        listaResponsaveis: listaResponsaveis
+                    });
+            })
+            .catch((erro)=>{
+                res.json(
+                    {
+                        status:false,
+                        mensagem:"Não foi possível obter os autores: " + erro.message
+                    }
+                );
+            });
         }
-
+        else 
+        {
+            res.status(400).json({
+                "status": false,
+                "mensagem": "Por favor, utilize o método GET para consultar autores!"
+            });
+        }
     }
 
     async filtrar (req,res){

@@ -1,33 +1,50 @@
 import "./Dados.css";
-import CadastroAgenda from "./cadastroAgenda.jsx";
-import AgendaService from '../../SERVICES/agendaService.js';
+import AgendarReuniao from "./AgendarReuniao.jsx";
+import AgendamentoService from '../../SERVICES/agendamentoService.js';
 import { useState, useEffect } from 'react';
 
-const agendaService = new AgendaService();
+const agendamentoService = new AgendamentoService();
 
-function DadosAgenda({ isMenuExpanded }) {
+function DadosAgendamento({ isMenuExpanded }) {
   const [agendas, setAgendas] = useState([]);
   const [selectedAgenda, setSelectedAgenda] = useState(null);
   const [searchInput, setSearchInput] = useState('');
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
+  const [responsaveis, setResponsaveis] = useState(
+    [{
+      cpf: 0,
+      nome: "Nenhum responsável encontrado"
+    }]
+  );
 
-  const handleSave = async (agenda) => {
-    try {
-      if (selectedAgenda === null) {
-        await agendaService.createAgenda({}, agenda);
-      } else {
-        await agendaService.updateAgenda(selectedAgenda.codigo, agenda);
-      }
-      await buscarAgendas();
-      setSelectedAgenda(null);
-    } catch (error) {
-      console.error('Erro ao salvar agenda:', error);
-    }
-  };
+
+  function buscarResponsaveis() {
+    fetch('http://localhost:3001/aluno', { method: "GET" })
+      .then(resposta => resposta.json())
+      .then(retorno => {
+        if (retorno.status) {
+          if (retorno.listaResponsaveis !== undefined) {
+            setResponsaveis(retorno.listaResponsaveis);
+          } else {
+            console.error("Lista de professores não foi encontrada na resposta do servidor.");
+          }
+        } else {
+          console.error("Erro ao buscar professores:", retorno.error);
+        }
+      })
+      .catch(erro => {
+        console.error("Erro ao buscar professores:", erro.message);
+        setResponsaveis([{
+          cpf: 0,
+          nome: "Erro ao recuperar professores " + erro.message
+        }]);
+      })
+  }
+
 
   function buscarAgendas() {
-    fetch('http://localhost:3001/agenda', { method: "GET" })
+    fetch('http://localhost:3001/agendamento', { method: "GET" })
       .then(resposta => resposta.json())
       .then(retorno => {
         if (retorno.status) {
@@ -36,21 +53,23 @@ function DadosAgenda({ isMenuExpanded }) {
       })
       .catch(erro => {
         setAgendas([{
-          cpf: 0,
-          nome: "Erro ao recuperar agendas " + erro.message
+          responsavel: 0,
+          professor: "Erro ao recuperar matriculas " + erro.message
         }]);
       })
   }
 
+  // buscar professores ao iniciar o componente (uma unica vez)
   useEffect(() => {
-    buscarAgendas();
-  }, []);
+    buscarAgendas()
+    buscarResponsaveis()
+  }, []); //didMount do React
 
   const handleDelete = async (codigo) => {
     const confirmarExclusao = window.confirm("Deseja realmente excluir?");
     if (confirmarExclusao) {
-      await agendaService.deleteAgenda(codigo);
-      await buscarAgendas();
+      await agendamentoService.deleteAgenda(codigo);
+      buscarAgendas()
       setSuccessMessage('Agenda excluída com sucesso!');
       setTimeout(() => {
         setSuccessMessage(null);
@@ -58,18 +77,16 @@ function DadosAgenda({ isMenuExpanded }) {
     }
   };
 
-  const handleEdit = async (agenda) => {
-    setSelectedAgenda(agenda);
-  };
+  
 
   const handleRestaurarTabela = async () => {
-    await buscarAgendas();
+    buscarAgendas();
   }
 
   const handleFiltrar = async () => {
     try {
       
-      const agendasFiltradas = await agendaService.filtrar({ nome: searchInput });
+      const agendasFiltradas = await agendamentoService.filtrar({ nome: searchInput });
 
       if (agendasFiltradas.length === 0) {
         setError('Agenda não encontrada. Verifique o nome do professor e tente novamente.');
@@ -88,11 +105,15 @@ function DadosAgenda({ isMenuExpanded }) {
     }
   };
 
+  const handleSave = async () => { 
+    buscarAgendas();
+};
+
   return (
     <div id="formularioAluno" className={isMenuExpanded ? "expanded" : ""}>
       <div className="main--content">
         <div className="form--wrapper">
-        <CadastroAgenda selectedAgenda={selectedAgenda} onSave={handleSave}></CadastroAgenda>
+        <AgendarReuniao selectedAgenda={selectedAgenda} onSave={handleSave}></AgendarReuniao>
         <div id='mensagem'>
             {successMessage && (
               <div className="alert alert-success" role="alert">
@@ -146,12 +167,11 @@ function DadosAgenda({ isMenuExpanded }) {
             <table class="table table-hover">
               <thead class="azul">
                 <tr>
-                <th scope="col">ID</th>
+                  <th scope="col">Código</th>
+                  <th scope="col">Responsável</th>
                   <th scope="col">Professor</th>
-                  <th scope="col">Turma</th>
                   <th scope="col">Data</th>
                   <th scope="col">Hora</th>
-                  <th scope="col">Editar</th>
                   <th scope="col">Excluir</th>
                 </tr>
               </thead>
@@ -159,17 +179,10 @@ function DadosAgenda({ isMenuExpanded }) {
               {agendas.map((agenda) => (
                   <tr key={agenda.codigo}>
                     <td className="texto">{agenda.codigo}</td>
-                    <td className="texto">{agenda.nome}</td>
-                    <td className="texto">{agenda.turma}</td>
+                    <td className="texto">{agenda.responsavel}</td>
+                    <td className="texto">{agenda.professor}</td>
                     <td className="texto">{new Date(agenda.dia + 'T00:00:00').toLocaleDateString()}</td>
                     <td className="texto">{agenda.hora}</td>
-                    <td>
-                      <div className="centraliza">
-                        <button className="btn btn-primary m-2" onClick={() => { handleEdit(agenda) }}>
-                          <i class="bi bi-pencil-square"></i>{" "}
-                        </button>
-                      </div>
-                    </td>
                     <td>
                       <div className="centraliza">
                         <button className="btn btn-danger m-2" onClick={() => { handleDelete(agenda.codigo) }}>
@@ -189,4 +202,4 @@ function DadosAgenda({ isMenuExpanded }) {
   );
 }
 
-export default DadosAgenda;
+export default DadosAgendamento;

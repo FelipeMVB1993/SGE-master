@@ -53,37 +53,8 @@ function DadosRemanejar({ isMenuExpanded }) {
     }
   };
 
-  const handleDelete = async (cpf) => {
-    if (window.confirm("Deseja realmente excluir?")) {
-      await matriculaService.deleteMatricula(cpf);
-      fetchMatriculas();
-      setSuccessMessage('Matricula excluída com sucesso!');
-      setTimeout(() => setSuccessMessage(null), 5000);
-    }
-  };
-
   const handleEdit = (matricula) => {
     setSelectedMatricula(matricula);
-  };
-
-  const handleFiltrar = async () => {
-    if (!searchInput) {
-      fetchMatriculas();
-      return;
-    }
-
-    try {
-      const matriculasFiltradas = await matriculaService.filtrar({ cpf: searchInput });
-      if (matriculasFiltradas.length === 0) {
-        setError('Aluno não encontrado. Verifique o CPF e tente novamente.');
-        setTimeout(() => setError(null), 5000);
-      } else {
-        setMatriculas(matriculasFiltradas);
-      }
-    } catch (error) {
-      setError('Erro ao filtrar matriculas. Tente novamente mais tarde.');
-      setTimeout(() => setError(null), 5000);
-    }
   };
 
   return (
@@ -118,25 +89,21 @@ function DadosRemanejar({ isMenuExpanded }) {
                     <th scope="col">CPF</th>
                     <th scope="col">Turma</th>
                     <th scope="col">Editar</th>
-                    <th scope="col">Excluir</th>
                   </tr>
                 </thead>
                 <tbody>
                   {matriculas.map((matricula) => (
                     <tr key={matricula.cpf_aluno}>
-                      <td className="texto">{matricula.cpf_aluno}</td>
-                      <td className="texto">{matricula.codigo_turma}</td>
+                      <td className="texto">
+                        {alunos.find((aluno) => aluno.cpf === matricula.cpf_aluno)?.nome + ' ' + alunos.find((aluno) => aluno.cpf === matricula.cpf_aluno)?.sobrenome}
+                      </td>
+                      <td className="texto">
+                        {turmas.find((turma) => turma.codigo === matricula.codigo_turma)?.serie + ' ' + turmas.find((turma) => turma.codigo === matricula.codigo_turma)?.turma}
+                      </td>
                       <td>
                         <div className="centraliza">
                           <button className="btn btn-primary m-2" onClick={() => handleEdit(matricula)}>
                             <i className="bi bi-pencil-square"></i>{" "}
-                          </button>
-                        </div>
-                      </td>
-                      <td>
-                        <div className="centraliza">
-                          <button className="btn btn-danger m-2" onClick={() => handleDelete(matricula.cpf_aluno)}>
-                            <i className="bi bi-trash"></i>{" "}
                           </button>
                         </div>
                       </td>

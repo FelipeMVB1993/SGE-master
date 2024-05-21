@@ -121,10 +121,6 @@ function DadosMatricula({ isMenuExpanded }) {
     }
   };
 
-  const handleEdit = async (matricula) => {
-    console.log(matricula)
-    setSelectedMatricula(matricula);
-  };
 
   const handleFiltrar = async () => {
     try {
@@ -226,7 +222,6 @@ function DadosMatricula({ isMenuExpanded }) {
                   <th scope="col">CPF</th>
                     <th scope="col">Aluno</th>
                     <th scope="col">Turma</th>
-                    <th scope="col">Editar</th>
                     <th scope="col">Excluir</th>
                   </tr>
                 </thead>
@@ -239,13 +234,6 @@ function DadosMatricula({ isMenuExpanded }) {
                       </td>
                       <td className="texto">
                         {turmas.find((turma) => turma.codigo === matricula.codigo_turma)?.serie + ' ' + turmas.find((turma) => turma.codigo === matricula.codigo_turma)?.turma}
-                      </td>
-                      <td>
-                        <div className="centraliza">
-                          <button className="btn btn-primary m-2" onClick={() => { handleEdit(matricula) }}>
-                            <i class="bi bi-pencil-square"></i>{" "}
-                          </button>
-                        </div>
                       </td>
                       <td>
                         <div className="centraliza">
